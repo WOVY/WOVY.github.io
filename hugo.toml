@@ -29,6 +29,7 @@ googleAnalytics = "G-381JTKX1TD"
   ShowToc = true
   TocOpen = false
   comments = true
+  DateFormat = "2006-01-02"
 
   [params.fuseOpts]
     isCaseSensitive = false
@@ -78,10 +79,6 @@ googleAnalytics = "G-381JTKX1TD"
     favicon16x16 = "https://github.com/WOVY.png"
     favicon32x32 = "https://github.com/WOVY.png"
     apple_touch_icon = "https://github.com/WOVY.png"
-
-[params.dateFormat]
-  list = "2006-01-02"
-  single = "2006-01-02"
 
 [markup]
   [markup.highlight]
