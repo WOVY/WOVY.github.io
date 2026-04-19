@@ -3,6 +3,8 @@ date = '2026-04-19T14:30:21+09:00'
 draft = false
 title = 'bokjidream — AI 복지 서비스 자가진단 챗봇 프로젝트 소개'
 tags = ['bokjidream', 'AI', 'LangGraph', 'RAG', '복지']
+series = ['bokjidream']
+series_order = 1
 summary = '취약계층이 복잡한 복지 제도를 스스로 탐색할 수 있도록 돕는 AI 챗봇 시스템, bokjidream을 소개합니다.'
 +++
 

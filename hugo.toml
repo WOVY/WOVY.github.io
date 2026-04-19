@@ -5,6 +5,13 @@ theme = "PaperMod"
 paginate = 10
 enableRobotsTXT = true
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[taxonomies]
+  tag = "tags"
+  series = "series"
+
 [params]
   author = "WOVY"
   description = "AI · 복지 · 개발 기록"
@@ -21,6 +28,15 @@ enableRobotsTXT = true
   ShowToc = true
   TocOpen = false
 
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 2
+    keys = ["title", "permalink", "summary", "content"]
+
   [params.profileMode]
     enabled = true
     title = "WOVY"
@@ -34,8 +50,8 @@ enableRobotsTXT = true
       name = "Posts"
       url = "/posts/"
     [[params.profileMode.buttons]]
-      name = "Tags"
-      url = "/tags/"
+      name = "Search"
+      url = "/search/"
 
   [[params.socialIcons]]
     name = "github"
@@ -60,10 +76,18 @@ enableRobotsTXT = true
     url = "/posts/"
     weight = 1
   [[menu.main]]
+    name = "Series"
+    url = "/series/"
+    weight = 2
+  [[menu.main]]
     name = "Tags"
     url = "/tags/"
-    weight = 2
+    weight = 3
+  [[menu.main]]
+    name = "Search"
+    url = "/search/"
+    weight = 4
   [[menu.main]]
     name = "GitHub"
     url = "https://github.com/WOVY"
-    weight = 3
+    weight = 5
