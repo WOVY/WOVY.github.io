@@ -4,6 +4,7 @@ title = "WOVY's Dev Blog"
 theme = "PaperMod"
 paginate = 10
 enableRobotsTXT = true
+googleAnalytics = "G-381JTKX1TD"
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
@@ -56,6 +57,19 @@ enableRobotsTXT = true
   [[params.socialIcons]]
     name = "github"
     url = "https://github.com/WOVY"
+
+  [params.giscus]
+    repo = "WOVY/WOVY.github.io"
+    repoId = "R_kgDOSGjdIw"
+    category = "General"
+    categoryId = "DIC_kwDOSGjdI84C7L4T"
+    mapping = "pathname"
+    strict = "0"
+    reactionsEnabled = "1"
+    emitMetadata = "0"
+    inputPosition = "bottom"
+    theme = "preferred_color_scheme"
+    lang = "ko"
 
   [params.assets]
     disableHLJS = true
