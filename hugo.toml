@@ -19,12 +19,12 @@ googleAnalytics = "G-381JTKX1TD"
   defaultTheme = "auto"
   disableThemeToggle = false
 
-  ShowReadingTime = true
+  ShowReadingTime = false
   ShowShareButtons = false
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
-  ShowWordCount = true
+  ShowWordCount = false
   ShowRssButtonInSectionTermList = true
   ShowToc = true
   TocOpen = false
