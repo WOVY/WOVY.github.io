@@ -1,0 +1,279 @@
+:root {
+    --font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body,
+.post-content,
+.post-title,
+.post-description,
+nav,
+button {
+    font-family: var(--font-family);
+}
+
+code,
+pre {
+    font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+}
+
+/* 포스트 하단 태그 ↔ 이전/다음 간격 */
+.post-footer {
+    margin-top: var(--content-gap);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.post-footer > * {
+    margin-bottom: 0;
+}
+
+/* Giscus 댓글창 */
+.giscus {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+/* 포스트 카드 */
+.post-entry {
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-entry:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.dark .post-entry:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* 태그 뱃지 */
+.entry-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.post-tags li {
+    margin: 0;
+}
+
+.post-tags a {
+    display: inline-block;
+    background: var(--code-bg);
+    border-radius: 20px;
+    padding: 0 8px;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.post-tags a:hover {
+    transform: translateY(-1px);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* 포스트 본문 링크 */
+.post-content a.anchor {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* 네비게이션 hover */
+#menu a,
+.logo a {
+    transition: transform 0.15s ease, filter 0.15s ease;
+    display: inline-block;
+}
+
+#menu a:hover,
+.logo a:hover {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.dark #menu a:hover,
+.dark .logo a:hover {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+}
+
+/* ===== 코드 블록 ===== */
+div.highlight {
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin: 1.2em 0;
+}
+
+div.highlight pre {
+    border-radius: 0;
+    margin: 0;
+}
+
+.copy-code {
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 2px 8px;
+    top: 8px;
+    right: 8px;
+    background: rgba(60, 60, 60, 0.85);
+    backdrop-filter: blur(4px);
+}
+
+/* 인라인 코드 */
+.post-content code:not(pre code) {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.875em;
+}
+
+/* ===== 목차 (TOC) ===== */
+details.toc {
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 0;
+    overflow: hidden;
+}
+
+details.toc summary {
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.7rem 1.2rem;
+    background: var(--code-bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease;
+}
+
+details.toc[open] summary {
+    border-bottom-color: var(--border);
+}
+
+#TableOfContents {
+    padding: 0.8rem 1.4rem;
+    font-size: 0.9rem;
+}
+
+#TableOfContents a {
+    color: var(--secondary);
+    text-decoration: none;
+    transition: filter 0.15s ease, transform 0.15s ease;
+    display: inline-block;
+}
+
+#TableOfContents a:hover {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transform: translateX(2px);
+    text-decoration: none;
+}
+
+.dark #TableOfContents a:hover {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+#TableOfContents ul {
+    padding-left: 1.2rem;
+}
+
+#TableOfContents > ul {
+    padding-left: 0;
+}
+
+/* ===== 홈 프로필 ===== */
+.profile img {
+    border: 3px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.profile img:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+}
+
+.profile .profile_inner h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.profile .profile_inner span {
+    color: var(--secondary);
+    font-size: 1rem;
+}
+
+.button {
+    background: transparent;
+    border: 1.5px solid var(--secondary);
+    border-radius: 8px;
+    padding: 0.45rem 1.2rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.dark .button:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.social-icons a {
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.social-icons a:hover {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.dark .social-icons a:hover {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+}
+
+/* ===== Tags / Series 블록 ===== */
+.terms-tags {
+    gap: 12px;
+}
+
+.terms-tags a {
+    background: var(--code-bg);
+    border: 1px solid rgb(180, 180, 180);
+    border-radius: 10px;
+    padding: 6px 16px;
+    font-size: 0.9rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.terms-tags a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .terms-tags a:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.terms-tags a:active {
+    transform: scale(0.97);
+}

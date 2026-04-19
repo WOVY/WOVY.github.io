@@ -1,36 +1,41 @@
 {{ with .Site.Params.giscus }}
-<script src="https://giscus.app/client.js"
-  data-repo="{{ .repo }}"
-  data-repo-id="{{ .repoId }}"
-  data-category="{{ .category }}"
-  data-category-id="{{ .categoryId }}"
-  data-mapping="{{ .mapping }}"
-  data-strict="{{ .strict }}"
-  data-reactions-enabled="{{ .reactionsEnabled }}"
-  data-emit-metadata="{{ .emitMetadata }}"
-  data-input-position="{{ .inputPosition }}"
-  data-theme="light"
-  data-lang="{{ .lang }}"
-  crossorigin="anonymous"
-  async>
-</script>
 <script>
+  (function () {
+    const html = document.querySelector('html');
+    const isDark = html.dataset.theme === 'dark' ||
+      (!html.dataset.theme && localStorage.getItem('pref-theme') === 'dark');
+
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', '{{ .repo }}');
+    script.setAttribute('data-repo-id', '{{ .repoId }}');
+    script.setAttribute('data-category', '{{ .category }}');
+    script.setAttribute('data-category-id', '{{ .categoryId }}');
+    script.setAttribute('data-mapping', '{{ .mapping }}');
+    script.setAttribute('data-strict', '{{ .strict }}');
+    script.setAttribute('data-reactions-enabled', '{{ .reactionsEnabled }}');
+    script.setAttribute('data-emit-metadata', '{{ .emitMetadata }}');
+    script.setAttribute('data-input-position', '{{ .inputPosition }}');
+    script.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    script.setAttribute('data-lang', '{{ .lang }}');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    document.body.appendChild(script);
+  })();
+
   function setGiscusTheme(theme) {
     const iframe = document.querySelector('iframe.giscus-frame');
     if (iframe) {
       iframe.contentWindow.postMessage(
-        { giscus: { setConfig: { theme: theme === 'dark' ? 'dark' : 'light' } } },
+        { giscus: { setConfig: { theme: theme } } },
         'https://giscus.app'
       );
     }
   }
 
-  const stored = localStorage.getItem('pref-theme');
-  if (stored === 'dark') setGiscusTheme('dark');
-
-  new MutationObserver(() => {
-    const isDark = document.body.classList.contains('dark');
+  new MutationObserver(function () {
+    const isDark = document.querySelector('html').dataset.theme === 'dark';
     setGiscusTheme(isDark ? 'dark' : 'light');
-  }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }).observe(document.querySelector('html'), { attributes: true, attributeFilter: ['data-theme'] });
 </script>
 {{ end }}

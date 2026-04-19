@@ -7,7 +7,7 @@ enableRobotsTXT = true
 googleAnalytics = "G-381JTKX1TD"
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "JSON"]
   section = ["HTML"]
 
 [taxonomies]
@@ -26,7 +26,7 @@ googleAnalytics = "G-381JTKX1TD"
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
   ShowWordCount = false
-  ShowRssButtonInSectionTermList = true
+  ShowRssButtonInSectionTermList = false
   ShowToc = true
   TocOpen = false
   comments = true
@@ -44,10 +44,10 @@ googleAnalytics = "G-381JTKX1TD"
   [params.profileMode]
     enabled = true
     title = "WOVY"
-    subtitle = ""
+    subtitle = "내가 나중에 보려고 쓰는 블로그"
     imageUrl = "https://github.com/WOVY.png"
-    imageWidth = 120
-    imageHeight = 120
+    imageWidth = 130
+    imageHeight = 130
     imageTitle = "WOVY"
 
     [[params.profileMode.buttons]]
@@ -104,7 +104,3 @@ googleAnalytics = "G-381JTKX1TD"
     name = "Search"
     url = "/search/"
     weight = 4
-  [[menu.main]]
-    name = "GitHub"
-    url = "https://github.com/WOVY"
-    weight = 5
