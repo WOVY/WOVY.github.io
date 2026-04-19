@@ -8,6 +8,7 @@ googleAnalytics = "G-381JTKX1TD"
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+  section = ["HTML"]
 
 [taxonomies]
   tag = "tags"
