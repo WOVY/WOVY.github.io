@@ -18,7 +18,7 @@ collections:
     format: toml-frontmatter
     fields:
       - { label: "제목", name: "title", widget: "string" }
-      - { label: "날짜", name: "date", widget: "datetime" }
+      - { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss.SSSZ", date_format: "YYYY-MM-DD", time_format: "HH:mm" }
       - { label: "초안", name: "draft", widget: "boolean", default: false }
       - { label: "요약", name: "summary", widget: "string", required: false }
       - { label: "태그", name: "tags", widget: "list", required: false, default: [] }
