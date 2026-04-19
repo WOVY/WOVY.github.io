@@ -1,0 +1,28 @@
+baseURL = "https://WOVY.github.io/"
+languageCode = "ko-kr"
+title = "WOVY's Dev Blog"
+theme = "PaperMod"
+
+[params]
+  author = "WOVY"
+  description = "개발 기록 블로그"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  homeInfoParams = { Title = "안녕하세요", Content = "개발 프로젝트 기록 블로그입니다." }
+
+[menu]
+  [[menu.main]]
+    name = "Posts"
+    url = "/posts/"
+    weight = 1
+  [[menu.main]]
+    name = "Tags"
+    url = "/tags/"
+    weight = 2
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 3
