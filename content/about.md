@@ -2,6 +2,8 @@
 title = "About"
 date = "2026-04-19T19:19:00.000+09:00"
 draft = false
+ShowToc = false
+disableAnchoredHeadings = true
 +++
 
 ## 안녕하세요
