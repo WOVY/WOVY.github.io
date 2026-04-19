@@ -39,7 +39,7 @@ googleAnalytics = "G-381JTKX1TD"
     distance = 1000
     threshold = 0.4
     minMatchCharLength = 2
-    keys = ["title", "permalink", "summary", "content"]
+    keys = ["title", "summary"]
 
   [params.profileMode]
     enabled = true
