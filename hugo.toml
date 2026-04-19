@@ -43,7 +43,7 @@ googleAnalytics = "G-381JTKX1TD"
   [params.profileMode]
     enabled = true
     title = "WOVY"
-    subtitle = "AI · 복지 · 개발 기록"
+    subtitle = ""
     imageUrl = "https://github.com/WOVY.png"
     imageWidth = 120
     imageHeight = 120
