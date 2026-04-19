@@ -28,6 +28,7 @@ googleAnalytics = "G-381JTKX1TD"
   ShowRssButtonInSectionTermList = true
   ShowToc = true
   TocOpen = false
+  comments = true
 
   [params.fuseOpts]
     isCaseSensitive = false
