@@ -3,7 +3,7 @@ title = "bokjidream — AI 복지 서비스 자가진단 챗봇 프로젝트 소
 date = 2026-04-19T14:30:00.000
 draft = false
 summary = "취약계층이 복잡한 복지 제도를 스스로 탐색할 수 있도록 돕는 AI 챗봇 시스템, bokjidream을 소개합니다."
-tags = [ "bokjidream", "AI", "LangGraph", "RAG" ]
+tags = [ "bokjidream", "AI", "LangGraph", "RAG", "Multi-Agent System" ]
 series = [ "bokjidream", "한이음 드림업" ]
 series_order = 1
 +++
@@ -22,7 +22,7 @@ series_order = 1
 
 ## 시스템 구조
 
-```
+```plain
 사용자 (Next.js UI)
   ↓
 LangGraph 멀티 에이전트 (ai/)
@@ -46,7 +46,7 @@ LangGraph 멀티 에이전트 (ai/)
 ## 모노레포 구성
 
 | 디렉토리 | 역할 |
-|---------|------|
+| --- | --- |
 | `ai/` | LangGraph 에이전트 오케스트레이션 |
 | `rag/` | 크롤러 + ChromaDB + FastAPI 검색 API |
 | `llm/` | Llama 3 파인튜닝 및 서빙 (계획 중) |
