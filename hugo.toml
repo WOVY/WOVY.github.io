@@ -64,6 +64,10 @@ enableRobotsTXT = true
     favicon32x32 = "https://github.com/WOVY.png"
     apple_touch_icon = "https://github.com/WOVY.png"
 
+[params.dateFormat]
+  list = "2006-01-02"
+  single = "2006-01-02"
+
 [markup]
   [markup.highlight]
     style = "dracula"
