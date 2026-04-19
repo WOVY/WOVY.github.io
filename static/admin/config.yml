@@ -1,0 +1,28 @@
+backend:
+  name: github
+  repo: WOVY/WOVY.github.io
+  branch: main
+
+media_folder: static/images
+public_folder: /images
+
+collections:
+  - name: posts
+    label: Posts
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "날짜", name: "date", widget: "datetime" }
+      - { label: "초안", name: "draft", widget: "boolean", default: false }
+      - { label: "요약", name: "summary", widget: "string", required: false }
+      - label: "태그"
+        name: "tags"
+        widget: "list"
+        required: false
+      - label: "시리즈"
+        name: "series"
+        widget: "list"
+        required: false
+      - { label: "본문", name: "body", widget: "markdown" }
