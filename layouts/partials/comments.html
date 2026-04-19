@@ -9,9 +9,28 @@
   data-reactions-enabled="{{ .reactionsEnabled }}"
   data-emit-metadata="{{ .emitMetadata }}"
   data-input-position="{{ .inputPosition }}"
-  data-theme="{{ .theme }}"
+  data-theme="light"
   data-lang="{{ .lang }}"
   crossorigin="anonymous"
   async>
+</script>
+<script>
+  function setGiscusTheme(theme) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe) {
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: theme === 'dark' ? 'dark' : 'light' } } },
+        'https://giscus.app'
+      );
+    }
+  }
+
+  const stored = localStorage.getItem('pref-theme');
+  if (stored === 'dark') setGiscusTheme('dark');
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark');
+    setGiscusTheme(isDark ? 'light' : 'dark');
+  });
 </script>
 {{ end }}
