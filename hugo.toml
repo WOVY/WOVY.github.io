@@ -15,7 +15,7 @@ googleAnalytics = "G-381JTKX1TD"
 
 [params]
   author = "WOVY"
-  description = "AI · 복지 · 개발 기록"
+  description = ""
   defaultTheme = "auto"
   disableThemeToggle = false
 
