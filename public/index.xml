@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>WOVY's Dev Blog</title><link>https://WOVY.github.io/</link><description>Recent content on WOVY's Dev Blog</description><generator>Hugo</generator><language>ko-kr</language><lastBuildDate>Sun, 19 Apr 2026 14:35:29 +0900</lastBuildDate><atom:link href="https://WOVY.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://WOVY.github.io/about/</link><pubDate>Sun, 19 Apr 2026 14:35:29 +0900</pubDate><guid>https://WOVY.github.io/about/</guid><description>&lt;h2 id="안녕하세요-wovy입니다"&gt;안녕하세요, WOVY입니다&lt;/h2&gt;
+&lt;p&gt;AI와 복지 기술의 교차점에 관심이 많은 개발자입니다.&lt;/p&gt;
+&lt;p&gt;현재 &lt;strong&gt;bokjidream&lt;/strong&gt; 프로젝트를 진행 중입니다. 취약계층(고령자·장애인·저소득층)이 복잡한 복지 제도를 스스로 탐색할 수 있도록 AI 챗봇 시스템을 개발하고 있습니다.&lt;/p&gt;
+&lt;h2 id="관심-분야"&gt;관심 분야&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;LLM · RAG · LangGraph&lt;/li&gt;
+&lt;li&gt;로컬 AI (Sovereign AI, Ollama)&lt;/li&gt;
+&lt;li&gt;사회적 가치를 가진 AI 서비스&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="프로젝트"&gt;프로젝트&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;프로젝트&lt;/th&gt;
+&lt;th&gt;설명&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href="https://github.com/WOVY/bokjidream"&gt;bokjidream&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;AI 복지 서비스 자가진단 챗봇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="연락"&gt;연락&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub: &lt;a href="https://github.com/WOVY"&gt;github.com/WOVY&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>bokjidream — AI 복지 서비스 자가진단 챗봇 프로젝트 소개</title><link>https://WOVY.github.io/posts/bokjidream-intro/</link><pubDate>Sun, 19 Apr 2026 14:30:21 +0900</pubDate><guid>https://WOVY.github.io/posts/bokjidream-intro/</guid><description>취약계층이 복잡한 복지 제도를 스스로 탐색할 수 있도록 돕는 AI 챗봇 시스템, bokjidream을 소개합니다.</description></item></channel></rss>

@@ -2,16 +2,57 @@ baseURL = "https://WOVY.github.io/"
 languageCode = "ko-kr"
 title = "WOVY's Dev Blog"
 theme = "PaperMod"
+paginate = 10
+enableRobotsTXT = true
 
 [params]
   author = "WOVY"
-  description = "개발 기록 블로그"
+  description = "AI · 복지 · 개발 기록"
+  defaultTheme = "auto"
+  disableThemeToggle = false
+
   ShowReadingTime = true
   ShowShareButtons = false
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
-  homeInfoParams = { Title = "안녕하세요", Content = "개발 프로젝트 기록 블로그입니다." }
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  ShowToc = true
+  TocOpen = false
+
+  [params.profileMode]
+    enabled = true
+    title = "WOVY"
+    subtitle = "AI · 복지 · 개발 기록"
+    imageUrl = "https://github.com/WOVY.png"
+    imageWidth = 120
+    imageHeight = 120
+    imageTitle = "WOVY"
+
+    [[params.profileMode.buttons]]
+      name = "Posts"
+      url = "/posts/"
+    [[params.profileMode.buttons]]
+      name = "Tags"
+      url = "/tags/"
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/WOVY"
+
+  [params.assets]
+    disableHLJS = true
+    favicon = "https://github.com/WOVY.png"
+    favicon16x16 = "https://github.com/WOVY.png"
+    favicon32x32 = "https://github.com/WOVY.png"
+    apple_touch_icon = "https://github.com/WOVY.png"
+
+[markup]
+  [markup.highlight]
+    style = "dracula"
+    lineNos = true
+    lineNumbersInTable = true
 
 [menu]
   [[menu.main]]
@@ -23,6 +64,6 @@ theme = "PaperMod"
     url = "/tags/"
     weight = 2
   [[menu.main]]
-    name = "About"
-    url = "/about/"
+    name = "GitHub"
+    url = "https://github.com/WOVY"
     weight = 3
