@@ -28,9 +28,9 @@
   const stored = localStorage.getItem('pref-theme');
   if (stored === 'dark') setGiscusTheme('dark');
 
-  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+  new MutationObserver(() => {
     const isDark = document.body.classList.contains('dark');
-    setGiscusTheme(isDark ? 'light' : 'dark');
-  });
+    setGiscusTheme(isDark ? 'dark' : 'light');
+  }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 </script>
 {{ end }}
