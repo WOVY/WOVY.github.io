@@ -14,17 +14,13 @@ collections:
     folder: content/posts
     create: true
     slug: "{{slug}}"
+    extension: md
+    format: toml-frontmatter
     fields:
       - { label: "제목", name: "title", widget: "string" }
       - { label: "날짜", name: "date", widget: "datetime" }
       - { label: "초안", name: "draft", widget: "boolean", default: false }
       - { label: "요약", name: "summary", widget: "string", required: false }
-      - label: "태그"
-        name: "tags"
-        widget: "list"
-        required: false
-      - label: "시리즈"
-        name: "series"
-        widget: "list"
-        required: false
+      - { label: "태그", name: "tags", widget: "list", required: false, default: [] }
+      - { label: "시리즈", name: "series", widget: "list", required: false, default: [] }
       - { label: "본문", name: "body", widget: "markdown" }
