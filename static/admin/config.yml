@@ -2,8 +2,8 @@ backend:
   name: github
   repo: WOVY/WOVY.github.io
   branch: main
-  base_url: https://stunning-sherbet-8a0541.netlify.app
-  site_domain: stunning-sherbet-8a0541.netlify.app
+  base_url: https://oauth-proxy-jx1s.onrender.com
+  auth_endpoint: auth
 
 media_folder: static/images
 public_folder: /images
