@@ -1,11 +1,11 @@
 +++
-date = '2026-04-19T14:30:21+09:00'
+title = "bokjidream — AI 복지 서비스 자가진단 챗봇 프로젝트 소개"
+date = 2026-04-19T14:30:00.000
 draft = false
-title = 'bokjidream — AI 복지 서비스 자가진단 챗봇 프로젝트 소개'
-tags = ['bokjidream', 'AI', 'LangGraph', 'RAG', '복지']
-series = ['bokjidream']
+summary = "취약계층이 복잡한 복지 제도를 스스로 탐색할 수 있도록 돕는 AI 챗봇 시스템, bokjidream을 소개합니다."
+tags = [ "bokjidream", "AI", "LangGraph", "RAG" ]
+series = [ "bokjidream", "한이음 드림업" ]
 series_order = 1
-summary = '취약계층이 복잡한 복지 제도를 스스로 탐색할 수 있도록 돕는 AI 챗봇 시스템, bokjidream을 소개합니다.'
 +++
 
 ## 왜 만들었나
@@ -32,7 +32,7 @@ LangGraph 멀티 에이전트 (ai/)
   ├─ rag_detail          : 상세 정보 수집
   ├─ detail_interview    : 추가 정보 수집
   ├─ document_guidance   : 필요 서류 안내
-  ├─ draft_writer        : 신청서 초안 작성
+  ├─ draft_writer        : 신청서 초안 작성 가이드
   └─ report_writer       : 최종 리포트 생성
   ↓
 로컬 Llama 3 (Ollama)        ←→  RAG 서비스 (rag/)
@@ -51,18 +51,17 @@ LangGraph 멀티 에이전트 (ai/)
 | `rag/` | 크롤러 + ChromaDB + FastAPI 검색 API |
 | `llm/` | Llama 3 파인튜닝 및 서빙 (계획 중) |
 | `web/` | Next.js 프론트엔드 (계획 중) |
-| `docs/` | 기획 문서 |
 
 ## 현재 상태
 
-현재 LLM은 개발 편의를 위해 **Google Gemini**를 임시로 사용하고 있습니다. 실제 배포 시에는 Ollama 기반 Llama 3으로 전환할 예정이며, 전환 포인트는 `ai/tools/llm.py`의 `get_llm()` 함수 한 곳입니다.
+AI 파트(`ai/`)는 **아키텍처 설계가 완료된 상태**입니다. 8개 노드의 흐름, 데이터 모델(`UserProfile`, `WelfareCandidate`, `AgentState`), RAG API 계약, 체크포인터 전략까지 스펙이 확정되어 있습니다.
 
-RAG 파이프라인(`rag/`)은 Playwright로 복지 포털을 크롤링하고, 청크를 ChromaDB에 임베딩해 FastAPI로 검색 API를 제공합니다. `ai/` 에이전트는 이 API를 HTTP로 호출합니다.
+프로젝트 뼈대와 LLM 팩토리(`ai/tools/llm.py`의 `get_llm()`)는 준비되어 있으며, 현재 LLM은 개발 편의를 위해 **Google Gemini**를 임시로 사용합니다. 실제 배포 시 Ollama 기반 Llama 3으로의 전환 포인트도 이 함수 한 곳으로 고정해두었습니다.
+
+**노드 구현은 아직 시작 전입니다.** 설계를 바탕으로 본격적인 구현 단계에 진입하려는 시점입니다.
 
 ## 앞으로의 계획
 
-- Llama 3 파인튜닝 (복지 도메인 특화)
-- Next.js UI 구현
-- 실사용자 대상 파일럿 테스트
+팀 내 분업 계획을 수립한 뒤 구현에 들어갈 예정입니다. AI 파트는 LangGraph 노드 구현부터 RAG 서비스 연동, 로컬 LLM 전환까지 단계적으로 진행할 계획입니다.
 
-다음 포스트에서는 LangGraph 멀티 에이전트 구현 과정을 자세히 다룰 예정입니다.
+다음 포스트에서는 분업 구조와 구체적인 구현 로드맵을 다룰 예정입니다.
