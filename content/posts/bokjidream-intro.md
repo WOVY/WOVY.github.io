@@ -1,6 +1,6 @@
 +++
 title = "bokjidream — AI 복지 서비스 자가진단 챗봇 프로젝트 소개"
-date = 2026-04-19T14:30:00+09:00
+date = 2026-04-19T14:30:00.000
 draft = false
 summary = "취약계층이 복잡한 복지 제도를 스스로 탐색할 수 있도록 돕는 AI 챗봇 시스템, bokjidream을 소개합니다."
 tags = [ "bokjidream", "AI", "LangGraph", "RAG", "Multi-Agent System" ]
@@ -17,7 +17,7 @@ series_order = 1
 ## 핵심 설계 원칙
 
 - **프라이버시 우선**: 민감한 개인정보를 외부 클라우드에 보내지 않기 위해 **로컬 LLM(Llama 3, Ollama)** 을 사용합니다 (Sovereign AI).
-- **최신 복지 정보**: 정부 복지 포털을 직접 크롤링해 RAG 파이프라인으로 검색합니다.
+- **최신 복지 정보**: 복지로 API를 통해 DB를 구축하고 RAG 파이프라인으로 검색합니다.
 - **단계별 안내**: 단순 검색이 아니라 면담 → 서비스 선정 → 서류 안내 → 초안 작성까지 이어지는 에이전트 흐름을 갖춥니다.
 
 ## 시스템 구조
@@ -48,7 +48,7 @@ LangGraph 멀티 에이전트 (ai/)
 | 디렉토리 | 역할 |
 | --- | --- |
 | `ai/` | LangGraph 에이전트 오케스트레이션 |
-| `rag/` | 크롤러 + ChromaDB + FastAPI 검색 API |
+| `rag/` | 복지로API + ChromaDB + FastAPI 검색 API |
 | `llm/` | Llama 3 파인튜닝 및 서빙 (계획 중) |
 | `web/` | Next.js 프론트엔드 (계획 중) |
 
