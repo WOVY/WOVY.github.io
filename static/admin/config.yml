@@ -2,6 +2,7 @@ backend:
   name: github
   repo: WOVY/WOVY.github.io
   branch: main
+  auth_type: pkce
   client_id: Ov23liKu5fvMl71HtzXK
 
 media_folder: static/images
