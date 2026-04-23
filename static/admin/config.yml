@@ -5,8 +5,6 @@ backend:
   base_url: https://oauth-proxy-jx1s.onrender.com
   auth_endpoint: auth
 
-publish_mode: editorial_workflow
-
 media_folder: static/images
 public_folder: /images
 
