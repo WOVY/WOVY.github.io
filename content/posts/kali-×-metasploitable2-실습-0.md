@@ -2,7 +2,7 @@
 title = "Kali × Metasploitable2 실습 (0)"
 date = "2026-08-17T15:52:00.000+09:00"
 draft = false
-summary = ""
+summary = "Proxmox에서 Kali와 Metasploitable2가 통신이 안 되던 문제를 진단 후 해결"
 tags = [ "Proxmox", "Kali Linux", "Metasploitable2", "네트워크", "홈랩" ]
 series = [ "kali-metasploit lab" ]
 +++
