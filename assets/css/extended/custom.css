@@ -277,3 +277,19 @@ details.toc[open] summary {
 .terms-tags a:active {
     transform: scale(0.97);
 }
+
+/* ===== 본문 이미지 출처 캡션 ===== */
+.post-content figure {
+    margin: 1.2em 0;
+}
+
+.post-content figure img {
+    margin-bottom: 0;
+}
+
+.post-content figure figcaption {
+    text-align: center;
+    color: var(--secondary);
+    font-size: 0.85rem;
+    margin-top: 0.4em;
+}
