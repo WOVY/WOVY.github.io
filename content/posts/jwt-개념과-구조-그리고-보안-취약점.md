@@ -83,10 +83,7 @@ Authorization: Bearer <token>
 2. 인증 서버는 권한이 확인되면 클라이언트에게 액세스 토큰을 발급한다.
 3. 클라이언트는 액세스 토큰으로 보호된 리소스에 접근한다.
 
-
-
-
-
+![](/images/client-credentials-grant.webp "출처 : jwt.io")
 
 > 참고: https://www.jwt.io/introduction
 
