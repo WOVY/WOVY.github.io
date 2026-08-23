@@ -73,17 +73,17 @@ signature는 메시지 변조 여부를 검증한다. 개인키로 서명한 경
 
 ## 동작 방식
 
-클라이언트는 보호된 리소스에 접근할 때마다 Authorization 헤더에 Bearer 방식으로 JWT를 담아 전송한다.
-
-```plain
-Authorization: Bearer <token>
-```
-
 1. 클라이언트가 인증 서버에 인증을 요청한다.
 2. 인증 서버는 권한이 확인되면 클라이언트에게 액세스 토큰을 발급한다.
 3. 클라이언트는 액세스 토큰으로 보호된 리소스에 접근한다.
 
 ![](/images/client-credentials-grant.webp "출처 : jwt.io")
+
+이렇게 발급받은 액세스 토큰은, 이후 보호된 리소스에 접근할 때마다 Authorization 헤더에 Bearer 방식으로 담아 전송한다.
+
+```plain
+Authorization: Bearer <token>
+```
 
 > 참고: https://www.jwt.io/introduction
 
