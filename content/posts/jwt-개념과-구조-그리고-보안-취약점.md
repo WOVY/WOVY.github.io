@@ -1,9 +1,9 @@
 +++
 title = "JWT 개념과 구조 그리고 보안 취약점"
-date = "2026-08-20T08:54:00.000+09:00"
-draft = true
-summary = ""
-tags = [ "JWT" ]
+date = "2026-08-25T18:04:00.000+09:00"
+draft = false
+summary = "JWT의 개념, 구조와 취약점"
+tags = [ "JWT", "인증", "웹보안", "CVE" ]
 series = [ "키워드 노트" ]
 +++
 
@@ -85,8 +85,6 @@ signature는 메시지 변조 여부를 검증한다. 개인키로 서명한 경
 Authorization: Bearer <token>
 ```
 
-> 참고: https://www.jwt.io/introduction
-
 ## 주요 보안 취약점
 
 ### 1. alg: none 공격
@@ -118,4 +116,7 @@ RS256은 공개키/개인키 구조라 공개키가 노출돼도 안전하지만
 
 **세 취약점의 공통점**: alg:none은 검증할지 말지, 알고리즘 컨퓨전은 어떤 알고리즘으로 검증할지, jwk/jku 인젝션은 어떤 키로 검증할지를 토큰 헤더에 맡긴다는 점에서 비슷한 패턴이다. 검증에 필요한 결정을 검증 대상인 토큰 자신에게 위임하면 그 결정은 곧 공격자의 손에 넘어간다.
 
-> 참고: https://www.jwt.io/introduction
+> 참고
+> - https://www.jwt.io/introduction
+> - https://portswigger.net/web-security/jwt
+> - https://nvd.nist.gov/
