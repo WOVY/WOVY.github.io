@@ -1,6 +1,6 @@
 baseURL = "https://WOVY.github.io/"
 languageCode = "ko-kr"
-title = "WOVY's Dev Blog"
+title = "WOVY's Tech Blog"
 theme = "PaperMod"
 paginate = 10
 enableRobotsTXT = true
