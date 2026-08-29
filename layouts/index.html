@@ -1,0 +1,120 @@
+{{- define "main" }}
+
+<div class="home-hero">
+  {{- with site.Params.profileMode }}
+  {{- if .imageUrl }}
+  <img class="home-hero-avatar" draggable="false" src="{{ .imageUrl | absURL }}" alt="{{ .imageTitle | default "profile image" }}"
+    height="84" width="84" />
+  {{- end }}
+  <div class="home-hero-body">
+    <h1>{{ .title | default site.Title | markdownify }}</h1>
+    {{- if .subtitle }}
+    <p class="home-hero-role">{{ .subtitle | markdownify }}</p>
+    {{- end }}
+  </div>
+  {{- end }}
+</div>
+
+{{- with hugo.Data.portfolio.hero.bio }}
+<p class="home-hero-bio">{{ . | markdownify }}</p>
+{{- end }}
+
+<div class="home-link-row">
+  {{- with hugo.Data.portfolio.hero.resumeUrl }}
+  <a class="home-pill home-pill-primary" href="{{ . }}">이력서 보기</a>
+  {{- end }}
+  {{- range site.Params.socialIcons }}
+  <a class="home-pill" href="{{ trim .url " " | safeURL }}" target="_blank" rel="noopener noreferrer me">{{ .name | title }}</a>
+  {{- end }}
+  <a class="home-pill" href="{{ "posts/" | relURL }}">전체 글</a>
+</div>
+
+{{- with hugo.Data.portfolio.career }}
+<section class="home-section">
+  <div class="home-section-head">
+    <span class="home-eyebrow">Career &amp; Education</span>
+  </div>
+  <ul class="home-timeline">
+    {{- range . }}
+    {{- $item := . }}
+    <li>
+      <span class="home-when{{ if $item.placeholder }} home-placeholder{{ end }}">{{ $item.period }}</span>
+      <span class="home-node"></span>
+      <div class="home-what">
+        <div class="home-title{{ if $item.placeholder }} home-placeholder{{ end }}">{{ $item.title }}</div>
+        {{- with $item.org }}<div class="home-org{{ if $item.placeholder }} home-placeholder{{ end }}">{{ . }}</div>{{ end }}
+        {{- with $item.desc }}<div class="home-desc{{ if $item.placeholder }} home-placeholder{{ end }}">{{ . }}</div>{{ end }}
+      </div>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+
+{{- with hugo.Data.portfolio.projects }}
+<section class="home-section">
+  <div class="home-section-head">
+    <span class="home-eyebrow">Projects</span>
+  </div>
+  <div class="home-project-grid">
+    {{- range . }}
+    <a class="home-project-card{{ if .placeholder }} home-placeholder-card{{ end }}" {{ if .url }}href="{{ .url }}" target="_blank" rel="noopener"{{ else }}href="#"{{ end }}>
+      <div class="home-project-name">
+        <span{{ if .placeholder }} class="home-placeholder"{{ end }}>{{ .name }}</span>
+        {{- if .url }}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        {{- end }}
+      </div>
+      <p class="home-project-desc{{ if .placeholder }} home-placeholder{{ end }}">{{ .desc }}</p>
+      <div class="home-tags">
+        {{- range .tags }}<span class="home-tag">{{ . }}</span>{{- end }}
+      </div>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+{{- with hugo.Data.portfolio.certs }}
+<section class="home-section">
+  <div class="home-section-head">
+    <span class="home-eyebrow">Certifications &amp; Awards</span>
+  </div>
+  <ul class="home-index-list">
+    {{- range . }}
+    <li>
+      <span class="home-index-label">
+        <span{{ if .placeholder }} class="home-placeholder"{{ end }}>{{ .name }}</span>
+        <span class="home-index-issuer{{ if .placeholder }} home-placeholder{{ end }}">· {{ .issuer }}</span>
+      </span>
+      <span class="home-leader"></span>
+      <span class="home-when{{ if .placeholder }} home-placeholder{{ end }}">{{ .when }}</span>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+
+{{- $posts := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- with first 3 $posts }}
+<section class="home-section">
+  <div class="home-section-head">
+    <span class="home-eyebrow">Writing</span>
+    <a class="home-count" href="{{ "posts/" | relURL }}">전체 보기 →</a>
+  </div>
+  <div class="home-post-grid">
+    {{- range . }}
+    <a class="home-post-row" href="{{ .Permalink }}">
+      <span class="home-post-date">{{ .Date.Format "2006.01.02" }}</span>
+      <span class="home-post-info">
+        <span class="home-post-title">{{ .Title }}</span>
+        {{- with .Params.summary }}<span class="home-post-summary">{{ . }}</span>{{ end }}
+      </span>
+      {{- with .Params.series }}<span class="home-post-series">{{ index . 0 }}</span>{{ end }}
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+{{- end }}
