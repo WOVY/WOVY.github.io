@@ -1,13 +1,13 @@
 +++
 title = "Kali × Metasploitable2 실습 (1)"
-date = "2026-08-28T21:32:00.000+09:00"
-draft = true
-summary = ""
-tags = []
-series = []
+date = "2026-08-29T12:26:00.000+09:00"
+draft = false
+summary = "Metasploitable2를 nmap으로 스캔 후 취약점 점검"
+tags = [ "Proxmox", "Kali Linux", "Metasploitable2", "네트워크", "홈랩" ]
+series = [ "kali-metasploit lab" ]
 +++
 
-지난 글에서 예고한 대로, 이번엔 진짜 스캐닝부터 시작합니다. 침투테스트의 첫 단계는 항상 정찰입니다. 대상이 뭘 열어두고 있는지 모르면 애초에 어디를 찔러야 할지도 모르니까요.
+이번엔 스캐닝부터 시작합니다. 침투 테스트의 첫 단계는 항상 정찰입니다. 대상이 뭘 열어두고 있는지 알아야 어디를 공략해야 할지 알 수 있으니깐요.
 
 ## 환경
 
@@ -25,56 +25,61 @@ $ nmap -p- -T4 --min-rate 1000 192.168.100.100
 23개 포트가 열려 있다는 걸 확인했고 여기서 나온 포트만 골라서 서비스·버전까지 자세히 봤습니다.
 
 ```plain
-$ nmap -sC -sV -p <포트목록> -oN scan1.txt 192.168.100.100
+$ nmap -sC -sV -p <포트 목록> -oN scan1.txt 192.168.100.100
 ```
 
-결과를 이렇습니다.
+| 포트 | 프로토콜 | 서비스 | 버전 |
+| --- | --- | --- | --- |
+| 21 | tcp | ftp | vsftpd 2.3.4 (익명 로그인 허용) |
+| 22 | tcp | ssh | OpenSSH 4.7p1 Debian 8ubuntu1 |
+| 23 | tcp | telnet | Linux telnetd |
+| 25 | tcp | smtp | Postfix smtpd |
+| 53 | tcp | domain | ISC BIND 9.4.2 |
+| 80 | tcp | http | Apache httpd 2.2.8 (Ubuntu) DAV/2 |
+| 111 | tcp | rpcbind | 2 (RPC #100000) |
+| 139 | tcp | netbios-ssn | Samba smbd 3.X - 4.X |
+| 445 | tcp | netbios-ssn | Samba smbd 3.0.20-Debian |
+| 512 | tcp | exec | netkit-rsh rexecd |
+| 513 | tcp | login | OpenBSD or Solaris rlogind |
+| 514 | tcp | shell | Netkit rshd |
+| 1099 | tcp | java-rmi | GNU Classpath grmiregistry |
+| 1524 | tcp | bindshell | Metasploitable root shell |
+| 2049 | tcp | nfs | 2-4 (RPC #100003) |
+| 2121 | tcp | ftp | ProFTPD 1.3.1 |
+| 3306 | tcp | mysql | MySQL 5.0.51a-3ubuntu5 |
+| 3632 | tcp | distccd | v1 (GNU 4.2.4 Ubuntu 4.2.4-1ubuntu4) |
+| 5432 | tcp | postgresql | PostgreSQL DB 8.3.0 - 8.3.7 |
+| 5900 | tcp | vnc | VNC protocol 3.3 |
+| 6000 | tcp | X11 | (access denied) |
+| 6667 | tcp | irc | UnrealIRCd |
+| 6697 | tcp | irc | UnrealIRCd |
+| 8009 | tcp | ajp13 | Apache Jserv Protocol v1.3 |
+| 8180 | tcp | http | Apache Tomcat/Coyote JSP engine 1.1 |
 
-| 포트 | 서비스 | 버전 |
-| --- | --- | --- |
-| 21 | ftp | vsftpd 2.3.4 (익명 로그인 허용) |
-| 22 | ssh | OpenSSH 4.7p1 |
-| 23 | telnet | Linux telnetd |
-| 25 | smtp | Postfix |
-| 53 | domain | ISC BIND 9.4.2 |
-| 80 | http | Apache 2.2.8 |
-| 111 | rpcbind | — |
-| 139, 445 | netbios-ssn | Samba (버전이 둘이 다르게 잡힘) |
-| 512–514 | exec/login/shell | rexecd, rlogind, rshd |
-| 1099 | java-rmi | GNU Classpath grmiregistry |
-| 1524 | bindshell | Metasploitable root shell |
-| 2049 | nfs | — |
-| 2121 | ftp | ProFTPD 1.3.1 |
-| 3306 | mysql | 5.0.51a |
-| 3632 | distccd | v1 |
-| 5432 | postgresql | 8.3.0–8.3.7 |
-| 5900 | vnc | 프로토콜 3.3 |
-| 6000 | X11 | 접근 거부 |
-| 6667, 6697 | irc | UnrealIRCd |
-| 8009 | ajp13 | Apache Jserv |
-| 8180 | http | Tomcat/Coyote |
+nmap 결과를 ai와 함께 취약점이 있는지 점검한 결과 즉시 익스플로잇 가능한 서비스는 아래와 같았습니다.
 
-21번 포트가 눈에 띕니다. vsftpd 2.3.4는 2011년에 배포 서버가 해킹당해서 백도어가 심긴 채로 퍼진 버전입니다. 다음 글에서 바로 이걸 다룰 예정입니다.
+- 1524/tcp bindshell: 루트 쉘이 열려있음.
+- 21/tcp vsftpd 2.3.4: 백도어가 심어진 버전(CVE-2011-2523).
+- 3632/tcp distccd: 원격 코드 실행이 가능(CVE-2004-2687).
+- 6667/tcp UnrealIRCd: 백도어 버전(CVE-2010-2075).
 
-가장 놀란 건 1524번이었습니다. 익스플로잇을 하나도 안 썼는데 `nc`로 그냥 붙으면 루트 쉘이 나옵니다. 스캔 단계에서 이미 게임이 끝나 있는 경우도 있다는 걸 처음 알았습니다.
+이 외에도 취약한 포트들이 많지만 일단 즉시 익스플로잇 가능한 서비스들만 추렸습니다.
 
-## UDP 스캔은 생각보다 애매했다
+## UDP 스캔은 생각보다 애매,,,
 
-TCP만 보고 끝내면 안 된다길래 UDP도 돌려봤습니다.
+TCP만 보고 끝내면 안 되니깐 UDP도 돌려봤습니다.
 
 ```plain
 $ nmap -sU --top-ports 50 192.168.100.100
 ```
 
-sudo 없이 그냥 돌렸는데도 됐습니다. Kali는 `nmap`에 미리 권한을 박아둬서 그런 거라고 합니다.
+`53`(domain), `111`(rpcbind), `137`(netbios-ns), `2049`(nfs)는 open이나 `69`(tftp)랑 `138`(netbios-dgm)은 `open|filtered`로 나왔습니다.
 
-결과는 두 가지로 나뉘었습니다. `53`(domain), `111`(rpcbind), `137`(netbios-ns), `2049`(nfs)는 확실히 open — TCP 스캔에서 이미 본 서비스들과 겹칩니다. 그런데 `69`(tftp)랑 `138`(netbios-dgm)은 `open|filtered`로 애매하게 나왔습니다.
-
-왜 이런 애매한 상태가 나오는지 찾아보니, UDP는 연결 개념이 없어서 응답이 없으면 열려 있는 건지 방화벽에 막힌 건지 nmap도 구분을 못 한다고 합니다. Metasploitable2는 원래 TFTP 서버를 안 띄운다고 하니, 이 경우엔 실제로는 닫혀 있는데 애매하게 잡힌 걸로 보입니다.
+`open|filtered`가 뭐지 싶어서 검색해보니 UDP는 연결 개념이 없어서 응답이 안 오면 nmap은 원인을 알 수가 없습니다. 포트가 열려 있는데 패킷에 반응을 안 했을 수도 있고 포트가 닫혀 있거나 막혀있을 수도 있다고 하네요. 그래서 `open|filtered`로 표기합니다.
 
 ## 체크
 
-- 열린 TCP 포트 23개, 서비스·버전까지 표로 정리 완료
+- 열린 TCP 포트 25개의 서비스·버전까지 표로 정리 완료
 - UDP는 대역 특성상 확답을 못 주는 포트가 있다는 것도 직접 겪음
 - 스캔 결과와 실제 서비스가 맞는지 배너 그래빙으로 대조하는 건 아직 안 함 — `nc 192.168.100.100 21` 같은 걸로 직접 확인하는 게 다음 할 일
 
