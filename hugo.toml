@@ -83,10 +83,6 @@ googleAnalytics = "G-381JTKX1TD"
 
 [menu]
   [[menu.main]]
-    name = "About"
-    url = "/about/"
-    weight = 1
-  [[menu.main]]
     name = "Posts"
     url = "/posts/"
     weight = 2
