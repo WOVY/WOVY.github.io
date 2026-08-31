@@ -7,7 +7,7 @@ enableRobotsTXT = true
 googleAnalytics = "G-381JTKX1TD"
 
 [outputs]
-  home = ["HTML", "JSON"]
+  home = ["HTML", "JSON", "RSS"]
   section = ["HTML"]
 
 [taxonomies]
@@ -16,9 +16,10 @@ googleAnalytics = "G-381JTKX1TD"
 
 [params]
   author = "WOVY"
-  description = ""
+  description = "이것저것 기록하는 블로그"
   defaultTheme = "auto"
   disableThemeToggle = false
+  images = ["images/favicon.png"]
 
   ShowReadingTime = false
   ShowShareButtons = false
@@ -44,7 +45,7 @@ googleAnalytics = "G-381JTKX1TD"
   [params.profileMode]
     enabled = true
     title = "WOVY"
-    subtitle = "시험공부 하기 싫어서 만든 블로그"
+    subtitle = "이것저것 기록하는 블로그"
     imageUrl = "https://github.com/WOVY.png"
     imageWidth = 130
     imageHeight = 130
@@ -70,10 +71,10 @@ googleAnalytics = "G-381JTKX1TD"
 
   [params.assets]
     disableHLJS = true
-    favicon = "https://github.com/WOVY.png"
-    favicon16x16 = "https://github.com/WOVY.png"
-    favicon32x32 = "https://github.com/WOVY.png"
-    apple_touch_icon = "https://github.com/WOVY.png"
+    favicon = "images/favicon.png"
+    favicon16x16 = "images/favicon.png"
+    favicon32x32 = "images/favicon.png"
+    apple_touch_icon = "images/favicon.png"
 
 [markup]
   [markup.highlight]
