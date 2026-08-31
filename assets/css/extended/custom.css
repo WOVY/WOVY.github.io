@@ -577,13 +577,8 @@ details.toc[open] summary {
     display: flex;
     align-items: baseline;
     gap: 8px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
+    padding: 8px 0;
     font-size: 0.9rem;
-}
-
-.home-index-list li:last-child {
-    border-bottom: none;
 }
 
 .home-index-label {
