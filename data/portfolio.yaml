@@ -28,6 +28,9 @@ projects:
     tags: ["LangGraph", "RAG", "Multi-Agent"]
 
 certs:
+  - name: "정보처리기사"
+    issuer: "한국산업인력공단"
+    when: "2026.09"
   - name: "「2026 금융보안 AI 아카데미 캠프」 AI 레드팀 챌린지 우수상"
     issuer: "금융보안원"
     when: "2026.07"
