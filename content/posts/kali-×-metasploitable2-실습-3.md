@@ -7,7 +7,7 @@ tags = [ "Proxmox", "Kali Linux", "Metasploitable2", "네트워크", "홈랩" ]
 series = [ "Kali-Metasploit Lab" ]
 +++
 
-지난 편에서 Metasploitable2의 백도어 및 원격 코드 실행(RCE) 계열 취약점 네 개(vsftpd, UnrealIRCd, distccd, ingreslock)를 뚫었습니다. 이번 편에서는 예고했던 대로 코드 자체에 악성 코드가 심긴 게 아니라 정상 소프트웨어가 설정을 잘못해서 뚫리는 케이스를 다뤄볼 것입니다. 대상은 Samba, NFS, rlogin, Java RMI, Tomcat 다섯 개입니다.
+지난 편에서 Metasploitable2의 백도어 및 원격 코드 실행(RCE) 계열 취약점 네 개(vsftpd, UnrealIRCd, distccd, ingreslock)를 뚫었습니다. 이번 편에서는 예고했던 대로 백도어처럼 코드에 악성 코드가 심긴 경우가 아니라 서비스 자체의 취약점이나 잘못된 설정을 파고드는 침투 사례를 다뤄볼 것입니다. 대상은 Samba, NFS, rlogin, Java RMI, Tomcat 다섯 개이고, 사례마다 공격이 성립하는 조건은 조금씩 다릅니다
 
 ## Samba usermap_script (CVE-2007-2447)
 
@@ -87,6 +87,8 @@ root
 ```
 
 이번엔 성공했습니다. `-p` 옵션도 필요했는데 bash는 setuid로 실행돼도 기본적으로 권한을 스스로 버리게 설계돼 있어서 `-p`를 줘야 그 동작을 끄고 SUID 권한을 유지한다고 합니다.
+
+다만 짚어둘 게 있습니다. NFS가 해주는 건 root 소유 SUID 바이너리를 심는 것까지입니다. 실제로 root가 되려면 그 바이너리를 대상에서 실행해야 하는데, 이번엔 대상의 기존 msfadmin 계정으로 로그인한 상태에서 실행했습니다. 즉 NFS 마운트만으로 곧장 원격 셸이 열린 게 아니라, 대상에서 명령을 실행할 수단을 이미 갖고 있었다는 전제가 깔려 있습니다.
 
 ## rlogin 신뢰 관계
 
@@ -170,6 +172,8 @@ Server username: tomcat55
 | Java RMI | 1099 | root |
 | Tomcat manager | 8180 | tomcat55 |
 
-백도어(2주차)는 공격자가 코드에 의도적으로 심어둔 것이고 설정 오류(3주차)는 운영자가 기본값이나 과도한 신뢰를 그대로 둔 실수였습니다. 원인의 주체가 다릅니다.
+ 2주차 백도어가 공격자가 코드에 의도적으로 심어둔 것이었다면, 이번 편은 원인이 한 가지로 안 묶입니다.
+
+NFS·rlogin·Tomcat은 운영자가 기본값이나 과도한 신뢰·약한 인증을 그대로 둔 설정 문제였습니다. 반면 Samba는 입력을 검증하지 않는 소프트웨어 결함이 특정 설정과 맞물려 터진 경우이고, Java RMI도 원격 클래스 로딩을 허용하는 위험한 기본 동작을 노린 것이라 순수한 설정 실수와는 결이 다릅니다.
 
 다음 편은 웹 애플리케이션(DVWA, Mutillidae 등)을 다루어 볼 예정입니다. 이번에 root가 아니라 낮은 권한 계정만 나온 distccd(daemon), Tomcat(tomcat55)은 나중에 권한 상승 편에서 다시 쓸 예정입니다.
