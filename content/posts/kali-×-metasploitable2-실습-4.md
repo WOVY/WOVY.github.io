@@ -49,13 +49,21 @@ $name = str_replace('<script>', '', $_GET['name']);
 Hello &lt;img src=x onerror=alert(1)&gt;
 ```
 
-`<`, `>`가 `&lt;`, `&gt;`로 인코딩돼 있었습니다. low/medium이 "위험한 문자열을 찾아서 지우는" 블랙리스트 방식이었다면 high는 입력값의 특수문자를 통째로 이스케이프하는 방식이었습니다. `<`가 애초에 텍스트로만 취급되니 이 지점은 이론적으로 XSS 공격이 되지 않습니다.
+`<`, `>`가 `&lt;`, `&gt;`로 인코딩돼 있었습니다. 궁금해서 (3편에서 쓴) NFS로 대상 소스를 직접 봤더니 Reflected는 레벨마다 달랐습니다.
+
+- Low: `'Hello ' . $_GET['name']` — 필터가 아예 없음
+
+- Medium: `str_replace('<script>', '', $_GET['name'])` — `<script>` 문자열만 제거(대소문자 구분)
+
+- High: `htmlspecialchars($_GET['name'])` — <, >, &, "를 HTML 엔티티로 인코딩
+
+즉 위험한 문자열을 지우는 블랙리스트는 Medium 하나고, Low는 필터 자체가 없었습니다. High는 특수문자를 엔티티로 바꿔 `<`가 태그로 해석될 여지를 없앱니다. 또한 출력이 `<pre>` 안의 일반 텍스트 자리라, 이 입력 지점에서는 스크립트 주입이 성립하지 않습니다.
 
 ## Stored XSS
 
 ### Low
 
-메시지 칸에 Reflected와같은 페이로드를 넣었더니 alert(1)이 떴습니다. reflected와 다르게 stored 방식은 페이지에 스크립트를 삽입하는 방식이기 때문에 페이지를 새로고침할 때마다 alert가 다시 실행되었습니다.
+메시지 칸에 Reflected와 같은 페이로드를 넣었더니 alert(1)이 떴습니다. Reflected와 달리 Stored는 입력이 서버(DB)에 저장되고, 이후 그 페이지를 열 때마다 응답에 포함돼 실행됩니다. 그래서 새로고침할 때마다 alert가 다시 떴습니다.
 
 ### Medium
 
@@ -65,9 +73,11 @@ Message 칸에는 `<script>`든 `<Script>`든 `<img onerror>`든 뭘 넣어도 �
 
 그렇다면 Name 칸을 공략해야 한다고 생각했는데 Name 칸에는 입력 길이 제한이 있는듯했습니다. 그래서 어떡하지 고민하면서 소스코드를 봤는데 html에 maxlength=10이라고 정의되어있어서 그걸 지우고 Name 칸에 `<Script>alert(1);</script>`를 입력하니 새로고침할 때마다 alert이 떴습니다.
 
+소스로 보니 Message는 `strip_tags`로 태그를 없애고 `htmlspecialchars`까지 걸지만, Name은 `str_replace('<script>', '', ...)` 하나뿐이라 `<Script>`로 우회됐습니다. 그리고 Name의 `maxlength=10`은 HTML 속성이라 브라우저 입력만 막을 뿐 서버는 길이를 검사하지 않습니다. 그래서 그 속성을 지우니 긴 페이로드가 그대로 들어갔습니다
+
 ### High
 
-Name, Message 둘 다 `&lt;Script&gt;...&lt;/script&gt;`로 인코딩돼서 텍스트로만 보였습니다. Reflected의 High와 같은 이스케이프 방식인 거 같아 여기도 우회가 안 되는 거 같습니다.
+Name, Message 둘 다 `&lt;Script&gt;...&lt;/script&gt;`로 인코딩돼서 텍스트로만 보였습니다. 소스코드를 확인해보니 Stored High는 Name,Message 둘 다 htmlspecialchars로 인코딩해서 Reflected High와 같은 방식으로 막혔습니다.
 
 ## 정리
 
@@ -76,4 +86,4 @@ Name, Message 둘 다 `&lt;Script&gt;...&lt;/script&gt;`로 인코딩돼서 텍�
 | Reflected | 뚫림 | 대소문자 우회로 뚫림 | 방어 확인 |
 | Stored | 뚫림 (새로고침마다 재실행) | Name 칸 대소문자 우회로 뚫림, Message 칸은 방어됨 | 방어 확인 |
 
-low/medium은 블랙리스트 방식이라 우회 여지가 있었고 high는 입력값을 통째로 이스케이프하는 방식이라 실제로 뚫리지 않는다는 걸 확인할 수 있었습니다. 다음 편은 Command Injection, 파일 업로드 취약점 그리고 CSRF를 다룰 예정입니다.
+Medium은 특정 문자열만 지우는 블랙리스트라 대소문자로 우회됐고, Low는 필터가 아예 없었습니다. High는 `htmlspecialchars`로 특수문자를 엔티티로 인코딩해서 이 출력 위치에서는 뚫리지 않았습니다.
