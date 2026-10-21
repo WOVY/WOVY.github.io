@@ -56,14 +56,14 @@ $ nmap -sC -sV -p <포트 목록> -oN scan1.txt 192.168.100.100
 | 8009 | tcp | ajp13 | Apache Jserv Protocol v1.3 |
 | 8180 | tcp | http | Apache Tomcat/Coyote JSP engine 1.1 |
 
-nmap 결과를 ai와 함께 취약점이 있는지 점검한 결과 즉시 익스플로잇 가능한 서비스는 아래와 같았습니다.
+nmap 결과를 ai와 함께 취약점이 있는지 점검해서 우선 검증해볼 취약점 후보를 추렸습니다.
 
 - 1524/tcp bindshell: 루트 쉘이 열려있음.
-- 21/tcp vsftpd 2.3.4: 백도어가 심어진 버전(CVE-2011-2523).
+- 21/tcp vsftpd 2.3.4: 백도어가 심긴 변조 배포본이 돌았던 버전(CVE-2011-2523).
 - 3632/tcp distccd: 원격 코드 실행이 가능(CVE-2004-2687).
-- 6667/tcp UnrealIRCd: 백도어 버전(CVE-2010-2075).
+- 6667/tcp UnrealIRCd: 백도어가 심긴 변조 배포본이 돌았던 버전(CVE-2010-2075).
 
-이 외에도 취약한 포트들이 많지만 일단 즉시 익스플로잇 가능한 서비스들만 추렸습니다.
+이 외에도 취약한 포트들이 많지만 일단 우선 검증할 후보들만 추렸습니다.
 
 ## UDP 스캔은 생각보다 애매,,,
 
@@ -75,7 +75,7 @@ $ nmap -sU --top-ports 50 192.168.100.100
 
 `53`(domain), `111`(rpcbind), `137`(netbios-ns), `2049`(nfs)는 open이나 `69`(tftp)랑 `138`(netbios-dgm)은 `open|filtered`로 나왔습니다.
 
-`open|filtered`가 뭐지 싶어서 검색해보니 UDP는 연결 개념이 없어서 응답이 안 오면 nmap은 원인을 알 수가 없습니다. 포트가 열려 있는데 패킷에 반응을 안 했을 수도 있고 포트가 닫혀 있거나 막혀있을 수도 있다고 하네요. 그래서 `open|filtered`로 표기합니다.
+`open|filtered`가 뭐지 싶어서 검색해보니 Nmap이 포트가 열려 있는지, 패킷이 필터링됐는지 구분하지 못했다는 뜻이라고 합니다. 이번 UDP 스캔에서는 응답이 없어서 두 상태를 가리지 못해 `open|filtered`로 표기되었습니다.
 
 ## 체크
 
