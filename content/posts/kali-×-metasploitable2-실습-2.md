@@ -130,11 +130,11 @@ msf6 exploit(unix/misc/distcc_exec) > run
 [*] Exploit completed, but no session was created.
 ```
 
-익스플로잇은 컴플릿됐는데 쉘이 하나도 안 열렸습니다. 왜 이러지 싶어서 AI한테 물어보고 찾아보니깐 원인을 알 수 있었습니다.
+모듈 실행은 끝났지만("Exploit completed") 세션은 하나도 안 열렸습니다. 왜 이러지 싶어서 AI한테 물어보고 찾아보니깐 원인을 알 수 있었습니다.
 
-결론적으로 페이로드 문제였는데 `distcc_exec`는 페이로드 기본값으로 `cmd/unix/reverse_bash`를 사용합니다. 근데 `cmd/unix/reverse_bash`는 리버스 쉘을 만들 때 bash의 `/dev/tcp`라는 기능을 사용하는데 `distcc`는 명령을 사용할 때 dash 같은 더 가벼운 쉘로 실행하는게 문제였습니다. dash에는 `/dev/tcp` 기능이 아예 없어서 `No such file or directory` 같은 에러와 함께 종료된 것이었습니다.
+로그의 오류 주체는 dash가 아니라 `bash`였습니다. 찾아보니 우분투와 데비안은 bash를 `/dev/tcp` 기능 없이 빌드합니다. Metasploitable2에서 `bash -c 'echo > /dev/tcp/127.0.0.1/22'`를 직접 돌려보니 위와 똑같은 오류가 재현됐습니다(`bash: /dev/tcp/127.0.0.1/22: No such file or directory`). 즉 처음 선택돼 있던 페이로드가 bash의 `/dev/tcp`로 리버스 셸을 열려 했는데, 이 대상 bash엔 그 기능이 없어 실패한 겁니다.
 
-그래서 `cmd/unix/reverse`로 페이로드를 변경하니 성공했습니다.
+그래서 `/dev/tcp`를 안 쓰는 `cmd/unix/reverse`로 바꾸니 성공했습니다.
 
 ```shell
 msf6 exploit(unix/misc/distcc_exec) > set PAYLOAD payload/cmd/unix/reverse
