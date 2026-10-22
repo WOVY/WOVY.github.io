@@ -132,7 +132,7 @@ msf6 exploit(unix/misc/distcc_exec) > run
 
 모듈 실행은 끝났지만("Exploit completed") 세션은 하나도 안 열렸습니다. 왜 이러지 싶어서 AI한테 물어보고 찾아보니깐 원인을 알 수 있었습니다.
 
-로그의 오류 주체는 dash가 아니라 `bash`였습니다. 찾아보니 우분투와 데비안은 bash를 `/dev/tcp` 기능 없이 빌드합니다. Metasploitable2에서 `bash -c 'echo > /dev/tcp/127.0.0.1/22'`를 직접 돌려보니 위와 똑같은 오류가 재현됐습니다(`bash: /dev/tcp/127.0.0.1/22: No such file or directory`). 즉 처음 선택돼 있던 페이로드가 bash의 `/dev/tcp`로 리버스 셸을 열려 했는데, 이 대상 bash엔 그 기능이 없어 실패한 겁니다.
+로그의 오류 주체는 dash가 아니라 `bash`였습니다. 이번 Metasploitable2 환경의 bash에서는 `/dev/tcp` 연결 기능이 동작하지 않았습니다. 대상 Metasploitable2에서 `bash -c 'echo > /dev/tcp/127.0.0.1/22'`를 직접 돌려보니 위와 똑같은 오류가 재현됐습니다(`bash: /dev/tcp/127.0.0.1/22: No such file or directory`). 즉 처음 선택돼 있던 페이로드가 bash의 `/dev/tcp`로 리버스 셸을 열려 했는데, 이 대상 bash엔 그 기능이 없어 실패한 겁니다.
 
 그래서 `/dev/tcp`를 안 쓰는 `cmd/unix/reverse`로 바꾸니 성공했습니다.
 
