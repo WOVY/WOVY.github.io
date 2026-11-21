@@ -16,14 +16,16 @@ collections:
     slug: "{{slug}}"
     extension: md
     format: toml-frontmatter
+    filter: { field: post_template, value: null }
     fields:
-      - { label: "제목", name: "title", widget: "string" }
-      - { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss.SSSZ", date_format: "YYYY-MM-DD", time_format: "HH:mm" }
+      - &post_title { label: "제목", name: "title", widget: "string" }
+      - &post_date { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss.SSSZ", date_format: "YYYY-MM-DD", time_format: "HH:mm" }
       - { label: "초안", name: "draft", widget: "boolean", default: false }
-      - { label: "요약", name: "summary", widget: "string", required: false }
+      - &post_summary { label: "요약", name: "summary", widget: "string", required: false }
       - { label: "태그", name: "tags", widget: "list", required: false, default: [] }
-      - { label: "시리즈", name: "series", widget: "list", required: false, default: [] }
-      - label: "커버 이미지"
+      - &post_series { label: "시리즈", name: "series", widget: "list", required: false, default: [] }
+      - &post_cover
+        label: "커버 이미지"
         name: "cover"
         widget: "object"
         required: false
@@ -31,3 +33,113 @@ collections:
           - { label: "이미지", name: "image", widget: "image", required: false }
           - { label: "설명", name: "alt", widget: "string", required: false }
       - { label: "본문", name: "body", widget: "markdown" }
+
+  - name: htb_writeups
+    label: "HTB 풀이"
+    label_singular: "HTB 풀이"
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: toml-frontmatter
+    filter: { field: post_template, value: htb }
+    fields:
+      - *post_title
+      - *post_date
+      - { label: "초안", name: "draft", widget: "boolean", default: true, hint: "초안은 블로그에 표시되지 않습니다. GitHub 저장소가 공개라면 저장한 Markdown 원본도 공개됩니다." }
+      - *post_summary
+      - { label: "태그", name: "tags", widget: "list", required: false, default: ["HTB"] }
+      - *post_series
+      - *post_cover
+      - { name: "post_template", widget: "hidden", default: "htb" }
+      - label: "본문"
+        name: body
+        widget: markdown
+        modes: [raw, rich_text]
+        captioned_images: false
+        default: |
+          > [핵심 단서와 최종적으로 확인한 권한을 두세 문장으로 요약한다.]
+
+          ## 머신 개요
+
+          | 항목 | 내용 |
+          | --- | --- |
+          | 머신 | [머신 이름](머신-페이지-URL) |
+          | 운영체제 | [Linux / Windows] |
+          | 난이도 | [Easy / Medium / Hard / Insane] |
+          | 풀이 날짜 | [YYYY-MM-DD] |
+
+          ## 풀이 요약
+
+          | 단계 | 핵심 단서 | 결과 |
+          | --- | --- | --- |
+          | 정찰 및 서비스 확인 | [눈에 띈 서비스나 응답] | [더 살펴본 대상] |
+          | 초기 접근 | [접근 가능성을 판단한 근거] | [확인한 접근 범위] |
+          | 권한 상승 | [권한이나 설정에서 확인한 문제] | [확인한 최종 권한] |
+
+          ## 풀이 과정
+
+          ### 1. 정찰 및 서비스 확인 (Recon & Enumeration)
+
+          | 포트 | 서비스 | 관찰한 내용 |
+          | --- | --- | --- |
+          | [포트/프로토콜] | [서비스] | [응답, 화면 또는 로그에서 확인한 사실] |
+
+          [여러 단서 중 어떤 서비스를 먼저 살펴봤고, 관찰한 내용이 다음 단계로 어떻게 이어졌는지 적는다. 내용이 길면 `#### [서비스 이름]`으로 소제목을 나눈다.]
+
+          <!-- 캡처 후보 — 다음 단계로 이어진 단서가 보이는 서비스 화면이나 응답 -->
+
+          ### 2. 초기 접근 (Foothold)
+
+          - **단서** — [어떤 응답이나 동작이 눈에 띄었는가?]
+          - **판단** — [그 단서로 무엇을 추정했고, 어떤 관찰이 판단을 뒷받침했는가?]
+          - **결과** — [어떤 계정이나 역할로 접근할 수 있었고, 어디까지 확인했는가?]
+
+          <!-- 캡처 후보 — 접근 후 어떤 계정이나 역할이 확인됐는지 보여 주는 화면 -->
+          <!-- 중간에 다른 사용자나 역할로 전환했다면 여기에 `#### [중간 권한과 결과]`를 추가한다. -->
+
+          ### 3. 권한 상승 (Privilege Escalation)
+
+          - **단서** — [초기 접근 후 어떤 권한이나 설정을 확인했는가?]
+          - **판단** — [그 상태가 권한 경계에 어떤 영향을 주는가?]
+          - **결과** — [어떤 권한이 추가로 확인됐고, 무엇을 근거로 확인했는가?]
+
+          <!-- 캡처 후보 — 최종 권한을 확인할 수 있는 화면 -->
+
+          <!-- 판단의 근거가 된 출력이나 캡처는 해당 설명 바로 아래에 붙인다.
+          출력이 짧으면 텍스트 블록으로 붙이고, 화면 자체가 근거라면 이미지를 넣는다.
+          이미지는 필요한 영역만 잘라 쓰고 플래그, 비밀번호, 토큰은 가린다.
+
+          ```text
+          [판단에 필요한 출력 일부]
+          ```
+
+          ![화면에 보이는 내용](/images/파일명.png)
+
+          *[독자가 화면에서 확인할 단서와 그 의미를 한 줄로 적는다.]*
+          -->
+
+          ## 취약점 및 대응 방안
+
+          <!-- 확인한 취약점이 여러 개라면 아래 블록을 복사한다. -->
+
+          ### [취약점 이름]
+
+          - **위치** — [관련 서비스, 기능 또는 설정]
+          - **원인** — [어떤 구현 또는 설정 문제로 발생했는가?]
+          - **확인 근거** — [문제를 보여 준 화면, 응답 또는 로그의 요약]
+          - **영향** — [어떤 조건에서 어느 범위까지 영향을 받는가?]
+          - **대응 방안** — [어떤 설정이나 권한을 바꿔야 하는가?]
+
+          ## 회고
+
+          - **막혔던 지점** — [어떤 가정이 틀렸고, 무엇을 보고 생각을 바꿨는가?]
+          - **다음에 적용할 점** — [비슷한 머신을 풀 때 처음부터 확인할 항목 하나]
+
+          <!-- 풀이가 끝난 뒤 추가로 살펴본 내용이 있다면 `### 추가 분석 (Beyond Root)`를 넣는다. -->
+
+          ## 참고 자료
+
+          - [공식 문서 또는 참고 글 제목](참고-자료-URL) — [어떤 개념이나 판단에 참고했는지 한 줄로 적는다.]
+
+          <!-- 게시 전에 제목과 대괄호 안내를 채우고, 쓰지 않은 행을 지운다. -->
