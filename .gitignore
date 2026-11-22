@@ -1,2 +1,6 @@
 public/
 .hugo_build.lock
+
+# AI 작업 지침 (로컬 전용)
+CLAUDE.md
+AGENTS.md
