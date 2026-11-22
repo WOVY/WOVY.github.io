@@ -1,0 +1,40 @@
+/* HTB 풀이 정보 상자 (layouts/partials/htb_info.html) */
+.htb-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px 20px;
+    margin: 0 0 var(--content-gap);
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--entry);
+}
+
+.htb-info dt {
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+.htb-info dd {
+    margin: 2px 0 0;
+    font-weight: 600;
+}
+
+.htb-info .htb-chain {
+    grid-column: 1 / -1;
+}
+
+.htb-info .htb-chain dd {
+    font-weight: 400;
+}
+
+/* 난이도 색은 HTB 표기 관례를 따른다 */
+.htb-diff-easy { color: #2e9e4f; }
+.htb-diff-medium { color: #d48a00; }
+.htb-diff-hard { color: #d64545; }
+.htb-diff-insane { color: #8c5fd6; }
+
+/* 풀이 목록 (layouts/_default/writeups.html) */
+.htb-list td:nth-child(5) {
+    white-space: nowrap;
+}

@@ -35,112 +35,163 @@ collections:
       - { name: "post_template", widget: "hidden", default: "post" }
       - { label: "본문", name: "body", widget: "markdown" }
 
+
   - name: htb_writeups
     label: "HTB 풀이"
     label_singular: "HTB 풀이"
     folder: content/posts
     create: true
-    slug: "{{slug}}"
+    slug: "htb-{{htb.machine}}"
     extension: md
     format: toml-frontmatter
     filter: { field: post_template, value: htb }
+    media_folder: /static/images/htb
+    public_folder: /images/htb
+    summary: "{{title}} · {{htb.difficulty}} {{draft | ternary('(초안)', '')}}"
     fields:
       - *post_title
       - *post_date
-      - { label: "초안", name: "draft", widget: "boolean", default: true, hint: "초안은 블로그에 표시되지 않습니다. GitHub 저장소가 공개라면 저장한 Markdown 원본도 공개됩니다." }
-      - *post_summary
-      - { label: "태그", name: "tags", widget: "list", required: false, default: ["HTB"] }
+      - { label: "초안", name: "draft", widget: "boolean", default: true, hint: "초안은 블로그에 표시되지 않지만, 저장소가 공개라서 저장한 원본은 GitHub에서 누구나 볼 수 있습니다. Active 머신 풀이는 CMS에 저장하지 말고 로컬에 적어 두세요." }
+      - { label: "요약", name: "summary", widget: "string", required: false, hint: "글 목록에 보일 한 줄. 예: 파일 다운로드 기능의 경로 조작에서 시작해 sudo 와일드카드로 root까지" }
+      - { label: "태그", name: "tags", widget: "list", required: false, default: ["HTB"], hint: "기법·기술 위주로. 예: HTB, Linux, LFI, sudo, 비밀번호 재사용" }
       - *post_series
       - *post_cover
+      - label: "머신 정보"
+        name: htb
+        widget: object
+        collapsed: false
+        fields:
+          - { label: "머신 이름", name: "machine", widget: "string" }
+          - { label: "머신 페이지", name: "url", widget: "string", required: false, hint: "예: https://app.hackthebox.com/machines/이름" }
+          - { label: "운영체제", name: "os", widget: "select", options: ["Linux", "Windows", "FreeBSD", "OpenBSD", "기타"], default: "Linux" }
+          - { label: "난이도", name: "difficulty", widget: "select", options: ["Easy", "Medium", "Hard", "Insane"], default: "Easy" }
+          - { label: "공격 흐름", name: "chain", widget: "string", hint: "글 상단 정보 상자와 풀이 목록에 그대로 나옵니다. 예: LFI → 설정 파일 속 DB 비밀번호 → SSH 재사용 → sudo tar 와일드카드" }
+          - { label: "소요 시간", name: "time", widget: "string", required: false, hint: "예: 6시간" }
+          - { label: "외부 도움", name: "help", widget: "select", options: ["없음", "힌트·포럼 참고", "공식 풀이·라이트업 참고"], default: "없음", hint: "포트폴리오는 정직해야 면접에서 안 무너집니다. 참고한 부분은 본문 '막혔던 지점'에 적으세요." }
+          - { label: "Retired 머신", name: "retired", widget: "boolean", default: false, hint: "HTB는 Retired 머신만 풀이 공개를 허용합니다. 체크하지 않은 채 초안을 끄면 빌드가 실패해 배포되지 않습니다." }
       - { name: "post_template", widget: "hidden", default: "htb" }
       - label: "본문"
         name: body
         widget: markdown
         modes: [raw, rich_text]
-        captioned_images: false
         default: |
-          > [핵심 단서와 최종적으로 확인한 권한을 두세 문장으로 요약한다.]
+          ## 요약
 
-          ## 머신 개요
+          [2~3문장. 어디서 무엇을 찾아 들어갔고, 무엇 때문에 최고 권한까지 올라갔는지 적는다. 예: 파일 다운로드 기능의 경로 조작으로 웹 설정 파일을 읽어 DB 비밀번호를 얻었다. 같은 비밀번호가 SSH 계정에도 쓰이고 있어 초기 접근에 성공했고, sudo로 허용된 백업 스크립트의 와일드카드를 악용해 root 권한을 얻었다.]
+
+          ## 발견한 취약점
+
+          | ID | 취약점 | 위험도 | 위치 | 대응 요약 |
+          | --- | --- | --- | --- | --- |
+          | V-01 | [예: 경로 조작을 통한 임의 파일 읽기] | [High] | [예: `/download?file=`] | [예: 허용 목록 기반 파일 지정] |
+          | V-02 | [예: 비밀번호 재사용] | [High] | [예: SSH 22/tcp] | [예: 계정별 고유 비밀번호, 키 인증] |
+          | V-03 | [예: 과도한 sudo 권한] | [Critical] | [예: `/etc/sudoers`] | [예: 와일드카드 제거, 최소 권한] |
+
+          <!-- 위험도: Critical / High / Medium / Low / Info. 판단 근거는 '취약점 상세'의 CVSS로 남긴다. -->
+
+          ## 수행 과정
+
+          ### 1. 정보 수집 (Reconnaissance)
+
+          ```shell
+          nmap -sC -sV -p- --min-rate 5000 -oN nmap.txt 10.10.11.X
+          ```
+
+          ```text
+          [스캔 결과 중 판단에 쓴 줄만 남긴다]
+          ```
+
+          | 포트 | 서비스 | 버전 | 메모 |
+          | --- | --- | --- | --- |
+          | [22/tcp] | [ssh] | [OpenSSH 8.9p1] | [자격 증명이 생기면 시도] |
+          | [80/tcp] | [http] | [nginx 1.18.0] | [`app.htb`로 리다이렉트 → hosts 등록] |
+
+          [무엇부터 파고들었고 왜 그 순서였는지. 디렉터리·서브도메인 탐색, 기술 스택 확인 결과 중 다음 단계로 이어진 것만 적는다.]
+
+          ### 2. 초기 침투 (Initial Access)
+
+          [단서 → 의심한 것 → 확인 방법 → 결과 순서로 적는다. 보낸 요청과 실행한 명령은 그대로 남긴다.]
+
+          ```http
+          GET /download?file=../../../../etc/passwd HTTP/1.1
+          Host: app.htb
+          ```
+
+          ![화면에 보이는 내용](/images/htb/파일명.png)
+
+          > 핵심 판단: [이 단계를 푼 결정적인 생각 한 줄]
+
+          ### 3. 수평 이동 (Lateral Movement)
+
+          <!-- 다른 사용자로 넘어가는 단계가 없으면 이 절을 지운다. -->
+
+          [셸을 얻은 뒤 둘러본 것(설정 파일, 홈 디렉터리, 내부 포트, 프로세스)과 다른 계정으로 넘어간 방법.]
+
+          ### 4. 권한 상승 (Privilege Escalation)
+
+          ```shell
+          id; sudo -l
+          ```
+
+          [권한 상승 경로를 어떻게 찾았는지(수동 점검, linpeas 등), 왜 악용이 되는지, 무엇을 실행했는지.]
+
+          ```text
+          # id
+          uid=0(root) gid=0(root) groups=0(root)
+          ```
+
+          ### 시도했지만 안 된 것
+
+          - [예: 로그인 폼 SQL 인젝션 — 응답 차이가 없고 sqlmap도 실패해서 접음]
+          - [예: 커널 익스플로잇 — 이미 패치된 버전]
+
+          ## 취약점 상세
+
+          ### V-01. [취약점 이름]
 
           | 항목 | 내용 |
           | --- | --- |
-          | 머신 | [머신 이름](머신-페이지-URL) |
-          | 운영체제 | [Linux / Windows] |
-          | 난이도 | [Easy / Medium / Hard / Insane] |
-          | 풀이 날짜 | [YYYY-MM-DD] |
+          | 위험도 | [High] |
+          | CVSS 3.1 | [7.5] `[CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N]` |
+          | 분류 | [CWE-22 경로 조작] |
+          | 위치 | [`http://app.htb/download?file=`] |
+          | CVE | [해당하면 번호, 없으면 이 행을 지운다] |
 
-          ## 풀이 요약
+          **원인** — [어떤 코드나 설정 때문에 생기는 문제인지. root를 딴 뒤 실제 소스·설정 파일을 열어 봤다면 문제 부분을 인용한다.]
 
-          | 단계 | 핵심 단서 | 결과 |
-          | --- | --- | --- |
-          | 정찰 및 서비스 확인 | [눈에 띈 서비스나 응답] | [더 살펴본 대상] |
-          | 초기 접근 | [접근 가능성을 판단한 근거] | [확인한 접근 범위] |
-          | 권한 상승 | [권한이나 설정에서 확인한 문제] | [확인한 최종 권한] |
+          **재현 절차**
 
-          ## 풀이 과정
+          1. [요청이나 명령]
+          2. [확인할 응답]
 
-          ### 1. 정찰 및 서비스 확인 (Recon & Enumeration)
+          **영향** — [이 취약점 하나로 공격자가 할 수 있는 것. 예: 웹 서버 계정으로 읽을 수 있는 모든 파일 열람, 설정 파일 속 자격 증명 노출]
 
-          | 포트 | 서비스 | 관찰한 내용 |
-          | --- | --- | --- |
-          | [포트/프로토콜] | [서비스] | [응답, 화면 또는 로그에서 확인한 사실] |
+          **대응 방안**
 
-          [여러 단서 중 어떤 서비스를 먼저 살펴봤고, 관찰한 내용이 다음 단계로 어떻게 이어졌는지 적는다. 내용이 길면 `#### [서비스 이름]`으로 소제목을 나눈다.]
+          - 즉시 조치: [예: 파일명을 직접 받지 않고 허용 목록의 ID로만 지정]
+          - 근본 조치: [예: 사용자 입력으로 경로를 조합하지 않도록 구조 변경, 웹 계정의 파일 읽기 권한 축소]
+          - 조치 확인: [수정 후 같은 요청을 보냈을 때 나와야 하는 결과]
 
-          <!-- 캡처 후보 — 다음 단계로 이어진 단서가 보이는 서비스 화면이나 응답 -->
+          **탐지** — [이 공격이 어느 로그에 어떤 흔적을 남기는지. 예: 웹 접근 로그에 `../`나 `%2e%2e`가 든 요청이 연달아 찍힘]
 
-          ### 2. 초기 접근 (Foothold)
+          <!-- 취약점이 여러 개면 V-01 블록을 복사해 V-02, V-03으로 쓴다. -->
 
-          - **단서** — [어떤 응답이나 동작이 눈에 띄었는가?]
-          - **판단** — [그 단서로 무엇을 추정했고, 어떤 관찰이 판단을 뒷받침했는가?]
-          - **결과** — [어떤 계정이나 역할로 접근할 수 있었고, 어디까지 확인했는가?]
+          ## 배운 점
 
-          <!-- 캡처 후보 — 접근 후 어떤 계정이나 역할이 확인됐는지 보여 주는 화면 -->
-          <!-- 중간에 다른 사용자나 역할로 전환했다면 여기에 `#### [중간 권한과 결과]`를 추가한다. -->
+          ### 새로 알게 된 것
 
-          ### 3. 권한 상승 (Privilege Escalation)
+          - [개념을 내 말로 설명한다. 예: sudo 규칙의 인자에 와일드카드(*)가 있으면 옵션을 끼워 넣을 수 있다. tar처럼 명령 실행 옵션(`--checkpoint-action`)이 있는 프로그램이면 곧바로 root 실행이 된다.]
 
-          - **단서** — [초기 접근 후 어떤 권한이나 설정을 확인했는가?]
-          - **판단** — [그 상태가 권한 경계에 어떤 영향을 주는가?]
-          - **결과** — [어떤 권한이 추가로 확인됐고, 무엇을 근거로 확인했는가?]
+          ### 막혔던 지점
 
-          <!-- 캡처 후보 — 최종 권한을 확인할 수 있는 화면 -->
+          - [어디서 얼마나 막혔고 무엇을 보고 풀었는지. 힌트나 다른 풀이를 봤다면 어느 부분이었는지도 적는다.]
 
-          <!-- 판단의 근거가 된 출력이나 캡처는 해당 설명 바로 아래에 붙인다.
-          출력이 짧으면 텍스트 블록으로 붙이고, 화면 자체가 근거라면 이미지를 넣는다.
-          이미지는 필요한 영역만 잘라 쓰고 플래그, 비밀번호, 토큰은 가린다.
+          ### 다음 머신에서 바로 확인할 것
 
-          ```text
-          [판단에 필요한 출력 일부]
-          ```
-
-          ![화면에 보이는 내용](/images/파일명.png)
-
-          *[독자가 화면에서 확인할 단서와 그 의미를 한 줄로 적는다.]*
-          -->
-
-          ## 취약점 및 대응 방안
-
-          <!-- 확인한 취약점이 여러 개라면 아래 블록을 복사한다. -->
-
-          ### [취약점 이름]
-
-          - **위치** — [관련 서비스, 기능 또는 설정]
-          - **원인** — [어떤 구현 또는 설정 문제로 발생했는가?]
-          - **확인 근거** — [문제를 보여 준 화면, 응답 또는 로그의 요약]
-          - **영향** — [어떤 조건에서 어느 범위까지 영향을 받는가?]
-          - **대응 방안** — [어떤 설정이나 권한을 바꿔야 하는가?]
-
-          ## 회고
-
-          - **막혔던 지점** — [어떤 가정이 틀렸고, 무엇을 보고 생각을 바꿨는가?]
-          - **다음에 적용할 점** — [비슷한 머신을 풀 때 처음부터 확인할 항목 하나]
-
-          <!-- 풀이가 끝난 뒤 추가로 살펴본 내용이 있다면 `### 추가 분석 (Beyond Root)`를 넣는다. -->
+          - [예: 설정 파일에서 비밀번호를 찾으면 /etc/passwd의 모든 셸 계정에 대입해 본다]
 
           ## 참고 자료
 
-          - [공식 문서 또는 참고 글 제목](참고-자료-URL) — [어떤 개념이나 판단에 참고했는지 한 줄로 적는다.]
+          - [문서나 글 제목](URL) — [어디에 참고했는지]
 
-          <!-- 게시 전에 제목과 대괄호 안내를 채우고, 쓰지 않은 행을 지운다. -->
+          <!-- 게시 전: 대괄호 안내문을 모두 지우고, 플래그·비밀번호 해시는 가린다. -->

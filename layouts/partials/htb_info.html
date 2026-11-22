@@ -1,0 +1,13 @@
+{{- /* HTB 풀이 글 상단 정보 상자. 값은 front matter의 [htb] 표에서 읽는다. */ -}}
+{{- $h := .Params.htb | default dict -}}
+{{- if and (not .Draft) (not $h.retired) -}}
+  {{- errorf "%s: Retired로 표시되지 않은 HTB 풀이는 공개할 수 없습니다. 머신이 Retired된 뒤 CMS에서 'Retired 머신'을 체크하거나 초안으로 되돌리세요." .File.Path -}}
+{{- end -}}
+<dl class="htb-info">
+  <div><dt>머신</dt><dd>{{ with $h.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $h.machine }}</a>{{ else }}{{ $h.machine }}{{ end }}</dd></div>
+  {{- with $h.os }}<div><dt>OS</dt><dd>{{ . }}</dd></div>{{ end }}
+  {{- with $h.difficulty }}<div><dt>난이도</dt><dd class="htb-diff htb-diff-{{ lower . }}">{{ . }}</dd></div>{{ end }}
+  {{- with $h.time }}<div><dt>소요 시간</dt><dd>{{ . }}</dd></div>{{ end }}
+  {{- with $h.help }}<div><dt>외부 도움</dt><dd>{{ . }}</dd></div>{{ end }}
+  {{- with $h.chain }}<div class="htb-chain"><dt>공격 흐름</dt><dd>{{ . }}</dd></div>{{ end }}
+</dl>
