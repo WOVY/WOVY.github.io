@@ -20,11 +20,11 @@
     font-weight: 600;
 }
 
-.htb-info .htb-chain {
+.htb-info .htb-summary {
     grid-column: 1 / -1;
 }
 
-.htb-info .htb-chain dd {
+.htb-info .htb-summary dd {
     font-weight: 400;
 }
 

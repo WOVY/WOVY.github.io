@@ -49,10 +49,10 @@ collections:
     public_folder: /images/htb
     summary: "{{title}} · {{htb.difficulty}} {{draft | ternary('(초안)', '')}}"
     fields:
-      - *post_title
+      - { label: "제목", name: "title", widget: "string", default: "[HTB] ", hint: "[HTB] 머신이름 형식. 예: [HTB] TwoMillion" }
       - *post_date
       - { label: "초안", name: "draft", widget: "boolean", default: true, hint: "초안은 블로그에 표시되지 않지만, 저장소가 공개라서 저장한 원본은 GitHub에서 누구나 볼 수 있습니다. Active 머신 풀이는 CMS에 저장하지 말고 로컬에 적어 두세요." }
-      - { label: "요약", name: "summary", widget: "string", required: false, hint: "글 목록에 보일 한 줄. 예: 파일 다운로드 기능의 경로 조작에서 시작해 sudo 와일드카드로 root까지" }
+      - { label: "요약", name: "summary", widget: "string", hint: "시작점부터 최고 권한까지 한 줄. 블로그 글 목록, 글 상단 정보 상자, 풀이 목록 표에 모두 나옵니다. 예: 초대 코드 API → 관리자 권한 → 명령 주입 → 커널 취약점으로 root" }
       - { label: "태그", name: "tags", widget: "list", required: false, default: ["HTB"], hint: "기법·기술 위주로. 예: HTB, Linux, LFI, sudo, 비밀번호 재사용" }
       - *post_series
       - *post_cover
@@ -65,7 +65,6 @@ collections:
           - { label: "머신 페이지", name: "url", widget: "string", required: false, hint: "예: https://app.hackthebox.com/machines/이름" }
           - { label: "운영체제", name: "os", widget: "select", options: ["Linux", "Windows", "FreeBSD", "OpenBSD", "기타"], default: "Linux" }
           - { label: "난이도", name: "difficulty", widget: "select", options: ["Easy", "Medium", "Hard", "Insane"], default: "Easy" }
-          - { label: "공격 흐름", name: "chain", widget: "string", hint: "글 상단 정보 상자와 풀이 목록에 그대로 나옵니다. 예: LFI → 설정 파일 속 DB 비밀번호 → SSH 재사용 → sudo tar 와일드카드" }
           - { label: "소요 시간", name: "time", widget: "string", required: false, hint: "예: 6시간" }
       - { name: "post_template", widget: "hidden", default: "htb" }
       - label: "본문"

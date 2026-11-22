@@ -12,7 +12,7 @@
 <div class="post-content md-content">
 <table class="htb-list">
   <thead>
-    <tr><th>머신</th><th>OS</th><th>난이도</th><th>공격 흐름</th><th>날짜</th></tr>
+    <tr><th>머신</th><th>OS</th><th>난이도</th><th>요약</th><th>날짜</th></tr>
   </thead>
   <tbody>
     {{- range $pages.ByDate.Reverse }}
@@ -21,7 +21,7 @@
       <td><a href="{{ .RelPermalink }}">{{ $h.machine | default .Title }}</a></td>
       <td>{{ $h.os }}</td>
       <td class="htb-diff htb-diff-{{ lower ($h.difficulty | default "") }}">{{ $h.difficulty }}</td>
-      <td>{{ $h.chain }}</td>
+      <td>{{ .Params.summary }}</td>
       <td>{{ .Date.Format "2006-01-02" }}</td>
     </tr>
     {{- end }}

@@ -1,9 +1,9 @@
-{{- /* HTB 풀이 글 상단 정보 상자. 값은 front matter의 [htb] 표에서 읽는다. */ -}}
+{{- /* HTB 풀이 글 상단 정보 상자. 값은 front matter의 [htb] 표와 summary에서 읽는다. */ -}}
 {{- $h := .Params.htb | default dict -}}
 <dl class="htb-info">
   <div><dt>머신</dt><dd>{{ with $h.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $h.machine }}</a>{{ else }}{{ $h.machine }}{{ end }}</dd></div>
   {{- with $h.os }}<div><dt>OS</dt><dd>{{ . }}</dd></div>{{ end }}
   {{- with $h.difficulty }}<div><dt>난이도</dt><dd class="htb-diff htb-diff-{{ lower . }}">{{ . }}</dd></div>{{ end }}
   {{- with $h.time }}<div><dt>소요 시간</dt><dd>{{ . }}</dd></div>{{ end }}
-  {{- with $h.chain }}<div class="htb-chain"><dt>공격 흐름</dt><dd>{{ . }}</dd></div>{{ end }}
+  {{- with .Params.summary }}<div class="htb-summary"><dt>요약</dt><dd>{{ . }}</dd></div>{{ end }}
 </dl>

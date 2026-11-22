@@ -45,10 +45,10 @@ CMS에서 입력하면 글 파일 앞부분에 아래처럼 저장된다. 이 �
 
 ```toml
 +++
-title = "HTB Example 풀이"
+title = "[HTB] Example"
 date = "2026-11-22T20:00:00.000+09:00"
 draft = true
-summary = "파일 다운로드 기능의 경로 조작에서 시작해 sudo 와일드카드로 root까지"
+summary = "LFI → 설정 파일 속 DB 비밀번호 → SSH 재사용 → sudo tar 와일드카드로 root"
 tags = ["HTB", "Linux", "LFI", "sudo"]
 post_template = "htb"
 
@@ -57,18 +57,16 @@ machine = "Example"
 url = "https://app.hackthebox.com/machines/Example"
 os = "Linux"            # Linux / Windows / FreeBSD / OpenBSD / 기타
 difficulty = "Easy"     # Easy / Medium / Hard / Insane
-chain = "LFI → 설정 파일 속 DB 비밀번호 → SSH 재사용 → sudo tar 와일드카드"
 time = "6시간"
 +++
 ```
 
 | 항목 | 쓰는 법 |
 | --- | --- |
-| `title` | `HTB 머신이름 풀이`처럼 머신 이름이 들어가게 한다. |
-| `summary` | 글 목록에 보이는 한 줄. 시작점과 끝점이 드러나게 쓴다. |
+| `title` | `[HTB] 머신이름` 형식으로 통일한다. (예: `[HTB] TwoMillion`) 기법은 제목에 넣지 않고 `summary`에 쓴다. |
+| `summary` | 시작점부터 최고 권한까지 한 줄. 블로그 글 목록, 글 상단 정보 상자, `/writeups/` 표에 모두 나오므로 반드시 채운다. 화살표로 써도 되고 문장으로 써도 된다. |
 | `tags` | `HTB`, OS, 핵심 기법·기술. 기존 태그와 표기를 맞춘다. |
 | `post_template` | 반드시 `"htb"`. 이 값이 있어야 정보 상자와 목록에 나온다. CMS에서는 자동으로 들어간다. |
-| `htb.chain` | 공격 흐름을 화살표로 한 줄. 목록 표에 그대로 나오므로 짧게. |
 
 CMS 없이 직접 파일을 만들면 `content/posts/htb-머신이름.md`로 저장한다.
 
@@ -199,7 +197,7 @@ CVSS 점수는 [FIRST CVSS 3.1 계산기](https://www.first.org/cvss/calculator/
 - [ ] 내 VPN IP, 계정 이름 등 개인 정보가 캡처에 없다.
 - [ ] 발견한 취약점 표의 ID와 취약점 상세의 ID가 맞다.
 - [ ] 모든 취약점에 대응 방안과 조치 확인이 있다.
-- [ ] 머신 정보의 공격 흐름(`chain`)이 본문 요약과 맞다.
+- [ ] 머신 정보의 요약(`summary`)이 본문 "요약" 절과 맞다.
 - [ ] 이미지가 모두 보인다. (CMS 미리보기 또는 `hugo server`로 확인)
 
 ## AI가 도울 때 지킬 것
