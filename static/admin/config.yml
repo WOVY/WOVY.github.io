@@ -67,8 +67,6 @@ collections:
           - { label: "난이도", name: "difficulty", widget: "select", options: ["Easy", "Medium", "Hard", "Insane"], default: "Easy" }
           - { label: "공격 흐름", name: "chain", widget: "string", hint: "글 상단 정보 상자와 풀이 목록에 그대로 나옵니다. 예: LFI → 설정 파일 속 DB 비밀번호 → SSH 재사용 → sudo tar 와일드카드" }
           - { label: "소요 시간", name: "time", widget: "string", required: false, hint: "예: 6시간" }
-          - { label: "외부 도움", name: "help", widget: "select", options: ["없음", "힌트·포럼 참고", "공식 풀이·라이트업 참고"], default: "없음", hint: "포트폴리오는 정직해야 면접에서 안 무너집니다. 참고한 부분은 본문 '막혔던 지점'에 적으세요." }
-          - { label: "Retired 머신", name: "retired", widget: "boolean", default: false, hint: "HTB는 Retired 머신만 풀이 공개를 허용합니다. 체크하지 않은 채 초안을 끄면 빌드가 실패해 배포되지 않습니다." }
       - { name: "post_template", widget: "hidden", default: "htb" }
       - label: "본문"
         name: body
