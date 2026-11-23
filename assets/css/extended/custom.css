@@ -626,7 +626,7 @@ details.toc[open] summary {
 .home-post-date {
     font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
     font-size: 0.75rem;
-    color: var(--tertiary);
+    color: var(--secondary);
 }
 
 .home-post-title {
