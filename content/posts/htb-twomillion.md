@@ -1,5 +1,5 @@
 +++
-title = "[HTB] TwoMillions"
+title = "[HTB] TwoMillion"
 date = "2026-11-23T17:28:00.000+09:00"
 draft = false
 summary = "초대 코드 API로 관리자 권한을 얻고, VPN 생성 기능의 명령 주입으로 셸을 딴 뒤, 비밀번호 재사용과 커널 취약점으로 root를 얻었다."
