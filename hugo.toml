@@ -29,6 +29,7 @@ googleAnalytics = "G-381JTKX1TD"
   ShowWordCount = false
   ShowRssButtonInSectionTermList = false
   ShowToc = true
+  disableScrollToTop = true
   TocOpen = false
   comments = true
   DateFormat = "2006-01-02"
