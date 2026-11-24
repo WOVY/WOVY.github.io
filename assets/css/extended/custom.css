@@ -768,8 +768,8 @@ details.toc[open] summary {
 
     /* 목차 링크: 이 테마는 details.toc > .inner 구조라 #TableOfContents가 없다 */
     .toc .inner a {
-        display: inline-block;
-        padding: 11px 0;
+        display: block;
+        padding: 6px 0;
     }
 
     .post-tags {
