@@ -1,0 +1,21 @@
+<script>
+(function () {
+  function update(box) {
+    var s = box.firstElementChild;
+    if (!s) return;
+    box.classList.toggle("hl-more", s.scrollLeft + s.clientWidth < s.scrollWidth - 1);
+  }
+  function init() {
+    document.querySelectorAll("div.highlight").forEach(function (box) {
+      var s = box.firstElementChild;
+      if (!s) return;
+      s.addEventListener("scroll", function () { update(box); }, { passive: true });
+      update(box);
+    });
+  }
+  addEventListener("load", init);
+  addEventListener("resize", function () {
+    document.querySelectorAll("div.highlight").forEach(update);
+  });
+})();
+</script>

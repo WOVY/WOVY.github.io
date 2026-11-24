@@ -650,6 +650,55 @@ details.toc[open] summary {
 }
 
 @media (max-width: 560px) {
+    /* 가로 스크롤 영역 표시 (표, 코드). 휴대폰에서만 적용한다 */
+    /* 표: local 배경(덮개)이 끝까지 스크롤하면 그림자를 가린다 */
+    .post-content table:not(.highlight table) {
+        background:
+            linear-gradient(to right, var(--theme) 30%, transparent) left center / 24px 100% no-repeat local,
+            linear-gradient(to left, var(--theme) 30%, transparent) right center / 24px 100% no-repeat local,
+            linear-gradient(to right, rgba(128, 128, 128, 0.65), transparent) left center / 16px 100% no-repeat scroll,
+            linear-gradient(to left, rgba(128, 128, 128, 0.65), transparent) right center / 16px 100% no-repeat scroll;
+    }
+
+    /* 코드: 줄 번호 표를 코드 길이만큼 넓히고, 안쪽 div가 가로로 스크롤한다.
+       줄 번호 열은 왼쪽에 붙어 코드와 함께 밀려가지 않는다. */
+    div.highlight > div {
+        overflow-x: auto;
+    }
+
+    div.highlight > div > table {
+        display: table;
+        width: max-content;
+        min-width: 100%;
+        overflow: visible;
+    }
+
+    div.highlight > div > table td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: #282a36;
+    }
+
+    /* 오른쪽 그림자: 코드 위에 겹쳐 그리고, 더 밀 곳이 있을 때만(.hl-more) 보인다.
+       안쪽 pre·td 배경이 인라인 스타일이라 배경 그라데이션으로는 가려진다 */
+    div.highlight::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 18px;
+        background: linear-gradient(to left, rgba(255, 255, 255, 0.32), transparent);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+    }
+
+    div.highlight.hl-more::after {
+        opacity: 1;
+    }
+
     .home-hero {
         flex-direction: column;
         align-items: flex-start;
@@ -680,44 +729,6 @@ details.toc[open] summary {
     .home-post-series {
         order: -1;
     }
-}
-
-/* ===== 가로 스크롤 영역 표시 (표, 코드) =====
-   스크롤할 수 있는 쪽 끝에 그림자를 보여 잘린 것처럼 보이지 않게 한다.
-   local 배경(덮개)이 끝까지 스크롤하면 그림자를 가린다. */
-.post-content table:not(.highlight table) {
-    background:
-        linear-gradient(to right, var(--theme) 30%, transparent) left center / 24px 100% no-repeat local,
-        linear-gradient(to left, var(--theme) 30%, transparent) right center / 24px 100% no-repeat local,
-        linear-gradient(to right, rgba(128, 128, 128, 0.35), transparent) left center / 10px 100% no-repeat scroll,
-        linear-gradient(to left, rgba(128, 128, 128, 0.35), transparent) right center / 10px 100% no-repeat scroll;
-}
-
-/* 코드: 줄 번호 표를 코드 길이만큼 넓히고, 바깥 div가 가로로 스크롤한다.
-   줄 번호 열은 왼쪽에 붙어 코드와 함께 밀려가지 않는다. */
-div.highlight > div {
-    overflow-x: auto;
-    background-image:
-        linear-gradient(to left, rgba(255, 255, 255, 0.22), transparent),
-        linear-gradient(to right, rgba(255, 255, 255, 0.22), transparent);
-    background-position: right center, left center;
-    background-size: 10px 100%, 10px 100%;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-}
-
-div.highlight > div > table {
-    display: table;
-    width: max-content;
-    min-width: 100%;
-    overflow: visible;
-}
-
-div.highlight > div > table td:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    background-color: #282a36;
 }
 
 /* 풀이 목록 표는 560px 이하에서 카드로 바뀐다 (htb.css) */
@@ -755,7 +766,9 @@ div.highlight > div > table td:first-child {
         height: 44px;
     }
 
-    #TableOfContents a {
+    /* 목차 링크: 이 테마는 details.toc > .inner 구조라 #TableOfContents가 없다 */
+    .toc .inner a {
+        display: inline-block;
         padding: 11px 0;
     }
 

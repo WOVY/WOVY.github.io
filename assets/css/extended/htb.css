@@ -60,7 +60,8 @@
         margin-bottom: 12px;
     }
 
-    .md-content .htb-list td {
+    /* 테마의 .md-content table:not(...) td(0,3,2)보다 우선순위를 높인다 */
+    body .post-content.md-content table.htb-list td {
         display: flex;
         gap: 12px;
         min-width: 0;
