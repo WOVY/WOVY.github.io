@@ -38,3 +38,53 @@
 .htb-list td:nth-child(5) {
     white-space: nowrap;
 }
+
+/* 모바일: 풀이 목록 표를 카드로 */
+@media (max-width: 560px) {
+    .htb-list,
+    .htb-list tbody,
+    .htb-list tr,
+    .htb-list td {
+        display: block;
+    }
+
+    .htb-list thead {
+        display: none;
+    }
+
+    .htb-list tr {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--entry);
+        padding: 8px 14px;
+        margin-bottom: 12px;
+    }
+
+    .md-content .htb-list td {
+        display: flex;
+        gap: 12px;
+        min-width: 0;
+        padding: 6px 0;
+        border-bottom: 0;
+    }
+
+    .htb-list td::before {
+        content: attr(data-label);
+        flex: none;
+        width: 3.2em;
+        font-size: 13px;
+        color: var(--secondary);
+    }
+
+    .htb-list td:nth-child(1) {
+        font-weight: 600;
+    }
+
+    .htb-list td:nth-child(1) a {
+        padding: 6px 0;
+    }
+
+    .htb-list td:nth-child(5) {
+        white-space: normal;
+    }
+}

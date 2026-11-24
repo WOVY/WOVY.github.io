@@ -18,11 +18,11 @@
     {{- range $pages.ByDate.Reverse }}
     {{- $h := .Params.htb | default dict }}
     <tr>
-      <td><a href="{{ .RelPermalink }}">{{ $h.machine | default .Title }}</a></td>
-      <td>{{ $h.os }}</td>
-      <td class="htb-diff htb-diff-{{ lower ($h.difficulty | default "") }}">{{ $h.difficulty }}</td>
-      <td>{{ .Params.summary }}</td>
-      <td>{{ .Date.Format "2006-01-02" }}</td>
+      <td data-label="머신"><a href="{{ .RelPermalink }}">{{ $h.machine | default .Title }}</a></td>
+      <td data-label="OS">{{ $h.os }}</td>
+      <td data-label="난이도" class="htb-diff htb-diff-{{ lower ($h.difficulty | default "") }}">{{ $h.difficulty }}</td>
+      <td data-label="요약">{{ .Params.summary }}</td>
+      <td data-label="날짜">{{ .Date.Format "2006-01-02" }}</td>
     </tr>
     {{- end }}
   </tbody>
